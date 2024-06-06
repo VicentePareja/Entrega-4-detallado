@@ -2,6 +2,11 @@ namespace Fire_Emblem;
 
 public class BowGuard: DamageAlterationSkill
 {
+    private Combat _combat;
+    private Character _owner;
+    private Character _opponent;
+    private bool _isOpponentBow;
+    
     public BowGuard(string name, string description) : base(name, description)
     {
     }
@@ -11,14 +16,26 @@ public class BowGuard: DamageAlterationSkill
         _counterTimes++;
         if (_counterTimes % 2 == 0)
         {
-            Combat combat = battle.CurrentCombat;
-            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-            bool isOpponentBow = opponent.Weapon == "Bow";
-            if (isOpponentBow)
-            {
-                double damageReduction = -5.0;
-                owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
-            }
+            SetAttributes(battle, owner);
+            ApplyDamageEffect();
         }
     }
+
+    private void SetAttributes(Battle battle, Character owner)
+        {
+            _combat = battle.CurrentCombat;
+            _owner = owner;
+            _opponent = (_combat._attacker == owner) ? _combat._defender : _combat._attacker;
+            _isOpponentBow = _opponent.Weapon == "Bow";
+        }
+    
+    private void ApplyDamageEffect()
+    {
+        if (_isOpponentBow)
+        {
+            double damageReduction = -5.0;
+            _owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+        }
+    }
+    
 }
