@@ -1,6 +1,6 @@
 namespace Fire_Emblem {
     public class NotQuite : Skill {
-        public int Penalty { get; private set; }
+        private int Penalty { get; set; }
 
         public NotQuite(string name, string description) : base(name, description) {
             Penalty = -4;

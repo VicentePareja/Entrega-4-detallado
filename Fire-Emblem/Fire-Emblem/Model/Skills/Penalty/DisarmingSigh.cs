@@ -1,6 +1,6 @@
 namespace Fire_Emblem {
     public class DisarmingSigh : Skill {
-        public int Penalty { get; private set; }
+        private int Penalty { get; set; }
 
         public DisarmingSigh(string name, string description) : base(name, description) {
             Penalty = -8;

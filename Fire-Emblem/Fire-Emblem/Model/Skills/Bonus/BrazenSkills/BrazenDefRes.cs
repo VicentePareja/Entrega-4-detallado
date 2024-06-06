@@ -1,7 +1,7 @@
 ﻿namespace Fire_Emblem
 {
     public class BrazenDefRes : Skill {
-        public int Bonus { get; private set; }
+        private int Bonus { get; set; }
 
         public BrazenDefRes(string name, string description) : base(name, description) {
             Bonus = 10;

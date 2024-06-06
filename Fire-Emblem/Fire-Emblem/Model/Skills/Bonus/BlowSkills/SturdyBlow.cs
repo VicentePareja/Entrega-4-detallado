@@ -1,7 +1,7 @@
 ﻿namespace Fire_Emblem {
     public class SturdyBlow : BlowSkill {
-        public int AtkBonus { get; private set; }
-        public int DefBonus { get; private set; }
+        private int AtkBonus { get; set; }
+        private int DefBonus { get; set; }
 
         public SturdyBlow(string name, string description) : base(name, description) {
             AtkBonus = 6;

@@ -1,6 +1,6 @@
 namespace Fire_Emblem {
     public class BeliefInLove : Skill {
-        public int Penalty { get; private set; }
+        private int Penalty { get; set; }
 
         public BeliefInLove(string name, string description) : base(name, description) {
             Penalty = -5;

@@ -1,7 +1,7 @@
 ﻿namespace Fire_Emblem {
     public class BracingBlow : BlowSkill {
-        public int DefBonus { get; private set; }
-        public int ResBonus { get; private set; }
+        private int DefBonus { get; set; }
+        private int ResBonus { get; set; }
 
         public BracingBlow(string name, string description) : base(name, description) {
             DefBonus = 6;

@@ -1,7 +1,7 @@
 namespace Fire_Emblem {
     public class BowFocus : Skill {
-        public int AttackBonus { get; private set; }
-        public int ResistancePenalty { get; private set; }
+        private int AttackBonus { get; set; }
+        private int ResistancePenalty { get; set; }
 
         public BowFocus(string name, string description) : base(name, description) {
             AttackBonus = 10;

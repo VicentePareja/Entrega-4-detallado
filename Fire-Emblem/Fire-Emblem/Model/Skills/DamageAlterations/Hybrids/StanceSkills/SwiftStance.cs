@@ -2,8 +2,8 @@ namespace Fire_Emblem;
 
 public class SwiftStance : DamageAlterationSkill
 {
-    int bonus;
-    int reduction;
+    private int bonus;
+    private int reduction;
     public SwiftStance(string name, string description) : base(name, description)
     {
         bonus = 6;

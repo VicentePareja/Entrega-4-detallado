@@ -1,6 +1,6 @@
 namespace Fire_Emblem {
     public class Wrath : Skill {
-        public int Bonus { get; private set; }
+        private int Bonus { get; set; }
 
         public Wrath(string name, string description) : base(name, description) {
             Bonus = 1;

@@ -1,7 +1,7 @@
 namespace Fire_Emblem {
     public class SwordAgility : Skill {
-        public int SpeedBonus { get; private set; }
-        public int AttackPenalty { get; private set; }
+        private int SpeedBonus { get; set; }
+        private int AttackPenalty { get; set; }
 
         public SwordAgility(string name, string description) : base(name, description) {
             SpeedBonus = 12;

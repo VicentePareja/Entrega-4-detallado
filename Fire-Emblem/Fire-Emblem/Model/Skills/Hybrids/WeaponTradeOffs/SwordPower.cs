@@ -1,7 +1,7 @@
 namespace Fire_Emblem {
     public class SwordPower : Skill {
-        public int AttackBonus { get; private set; }
-        public int DefensePenalty { get; private set; }
+        private int AttackBonus { get; set; }
+        private int DefensePenalty { get; set; }
 
         public SwordPower(string name, string description) : base(name, description) {
             AttackBonus = 10;

@@ -1,6 +1,6 @@
 namespace Fire_Emblem {
     public class ChaosStyle : Skill {
-        public int Bonus { get; private set; }
+        private int Bonus { get; set; }
 
         public ChaosStyle(string name, string description) : base(name, description) {
             Bonus = 3;

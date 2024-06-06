@@ -2,8 +2,8 @@ namespace Fire_Emblem;
 
 public class WardingStance : DamageAlterationSkill
 { 
-    int bonus;
-    int reduction;
+    private int bonus;
+    private int reduction;
     public WardingStance(string name, string description) : base(name, description)
     {
         bonus = 8;

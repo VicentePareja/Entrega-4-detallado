@@ -1,7 +1,7 @@
 ﻿namespace Fire_Emblem {
     public class SteadyBlow : BlowSkill {
-        public int SpdBonus { get; private set; }
-        public int DefBonus { get; private set; }
+        private int SpdBonus { get; set; }
+        private int DefBonus { get; set; }
 
         public SteadyBlow(string name, string description) : base(name, description) {
             SpdBonus = 6;

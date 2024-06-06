@@ -1,6 +1,6 @@
 ﻿namespace Fire_Emblem {
     public class WardingBlow : BlowSkill {
-        public int Bonus { get; private set; }
+        private int Bonus { get; set; }
 
         public WardingBlow(string name, string description) : base(name, description) {
             Bonus = 8; 

@@ -1,7 +1,7 @@
 namespace Fire_Emblem {
     public class LightAndDark : Skill {
         
-        int _penalty = -5;
+        private int _penalty = -5;
         public LightAndDark(string name, string description) : base(name, description) {
         }
 

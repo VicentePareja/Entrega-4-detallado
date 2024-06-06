@@ -1,7 +1,7 @@
 ﻿namespace Fire_Emblem {
     public class HPIncreaseSkill : Skill {
-        public int HPIncrease { get; private set; }
-        public bool alreadyUsed { get; private set; }
+        private int HPIncrease { get; set; }
+        private bool alreadyUsed { get; set; }
 
         public HPIncreaseSkill(string name, string description) : base(name, description) {
             HPIncrease = 15;

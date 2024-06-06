@@ -1,6 +1,6 @@
 ﻿namespace Fire_Emblem {
     public class SwiftStrikeSkill : Skill {
-        public int Bonus { get; private set; }
+        private int Bonus { get; set; }
 
         public SwiftStrikeSkill(string name, string description) : base(name, description) {
             Bonus = 6;

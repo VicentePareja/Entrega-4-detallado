@@ -1,8 +1,8 @@
 namespace Fire_Emblem;
 public class SturdyStance : DamageAlterationSkill
 {
-    int bonus;
-    int reduction;
+    private int bonus;
+    private int reduction;
     public SturdyStance(string name, string description) : base(name, description)
     {
         bonus = 6;

@@ -1,6 +1,6 @@
 namespace Fire_Emblem {
     public class ResistancePlusFive : Skill {
-        public int Bonus { get; private set; }
+        private int Bonus { get; set; }
 
         public ResistancePlusFive(string name, string description) : base(name, description) {
             Bonus = 5;
