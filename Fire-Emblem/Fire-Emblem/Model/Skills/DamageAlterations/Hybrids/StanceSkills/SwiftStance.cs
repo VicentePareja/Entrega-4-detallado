@@ -13,11 +13,15 @@ public class SwiftStance : DamageAlterationSkill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         Combat combat = battle.CurrentCombat;
-        if (combat._attacker != owner)
+        _counterTimes++;
+        if (combat._attacker != owner && _counterTimes % 2 == 1)
         {
             owner.AddTemporaryBonus("Spd", bonus);
             owner.AddTemporaryBonus("Res", bonus);
-            
+        }
+        
+        if (combat._attacker != owner && _counterTimes % 2 == 0)
+        {
             owner.MultiplyFollowUpDamageAlterations("PercentageReduction", reduction);
         }
     }

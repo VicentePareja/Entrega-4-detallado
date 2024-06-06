@@ -6,12 +6,17 @@ namespace Fire_Emblem {
         public override void ApplyEffect(Battle battle, Character owner) {
             Combat combat = battle.CurrentCombat;
             Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
+            _counterTimes++;
 
-            owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", 25);
+            if (_counterTimes % 2 == 0)
+            {
+                owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", 25);
 
-            if (owner.GetEffectiveAttribute("Atk") > opponent.GetEffectiveAttribute("Res")) {
-                double extraDamage = 0.25 * (owner.Atk - opponent.Res);
-                owner.AddFirstAttackDamageAlteration("ExtraDamage", extraDamage);
+                if (owner.GetEffectiveAttribute("Atk") > opponent.GetEffectiveAttribute("Res"))
+                {
+                    double extraDamage = 0.25 * (owner.Atk - opponent.Res);
+                    owner.AddFirstAttackDamageAlteration("ExtraDamage", extraDamage);
+                }
             }
         }
     }

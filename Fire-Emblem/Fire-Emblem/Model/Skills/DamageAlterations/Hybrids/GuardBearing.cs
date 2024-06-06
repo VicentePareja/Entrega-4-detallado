@@ -9,9 +9,15 @@ namespace Fire_Emblem {
         public override void ApplyEffect(Battle battle, Character owner) {
             Combat combat = battle.CurrentCombat;
             Character opponent = DetermineOpponent(combat, owner);
-            ApplyStatPenalties(opponent);
-            int damageReductionPercentage = CalculateDamageReduction(combat, owner);
-            ApplyDamageReduction(owner, damageReductionPercentage);
+            _counterTimes++;
+            if (_counterTimes % 2 == 1) {
+                ApplyStatPenalties(opponent);
+            }
+            if (_counterTimes % 2 == 0) {
+                int damageReductionPercentage = CalculateDamageReduction(combat, owner);
+                ApplyDamageReduction(owner, damageReductionPercentage);
+            }
+            
         }
 
         private Character DetermineOpponent(Combat combat, Character owner) {

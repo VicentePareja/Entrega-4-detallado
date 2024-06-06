@@ -9,11 +9,15 @@ public class Bushido : DamageAlterationSkill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         double extraDamage = 7.0;
-        owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
-
         Combat combat = battle.CurrentCombat;
         Character opponent = GetOpponent(combat, owner);
-        ApplySpeedBasedDamageReduction(owner, opponent);
+        _counterTimes++;
+        
+        if (_counterTimes % 2 == 0)
+        {
+            owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
+            ApplySpeedBasedDamageReduction(owner, opponent);
+        }
     }
 
     private Character GetOpponent(Combat combat, Character owner)

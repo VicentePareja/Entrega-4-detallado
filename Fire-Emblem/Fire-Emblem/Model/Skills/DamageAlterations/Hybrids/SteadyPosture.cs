@@ -9,11 +9,17 @@ public class SteadyPosture : DamageAlterationSkill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         Combat combat = battle.CurrentCombat;
-        if (combat._attacker != owner)
+        _counterTimes++;
+        if (combat._attacker != owner && _counterTimes % 2 == 1)
         {
             owner.AddTemporaryBonus("Spd", 6);
             owner.AddTemporaryBonus("Def", 6);
+        }
+
+        if (combat._attacker != owner && _counterTimes % 2 == 0)
+        {
             owner.MultiplyFollowUpDamageAlterations("PercentageReduction", 10);
         }
+
     }
 }

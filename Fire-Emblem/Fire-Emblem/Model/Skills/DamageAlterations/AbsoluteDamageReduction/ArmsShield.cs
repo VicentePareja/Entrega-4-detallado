@@ -8,12 +8,17 @@ public class ArmsShield : DamageAlterationSkill
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
-        if (HasOwnerAdvantage(combat, owner))
+        _counterTimes++;
+        if (_counterTimes % 2 == 0)
         {
-            double damageReduction = -7.0;
-            owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            Combat combat = battle.CurrentCombat;
+            if (HasOwnerAdvantage(combat, owner))
+            {
+                double damageReduction = -7.0;
+                owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            }
         }
+        
     }
     
     private bool HasOwnerAdvantage(Combat combat, Character owner)

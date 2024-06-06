@@ -7,8 +7,18 @@ public class MoonTwinWing : DamageAlterationSkill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         Combat combat = battle.CurrentCombat;
-        ApplySpeedPenaltiesIfNecessary(owner, combat);
-        ApplyDamageReductionBasedOnSpeedDifference(owner, combat);
+        _counterTimes++;
+
+        if (_counterTimes % 2 == 0)
+        {
+            ApplyDamageReductionBasedOnSpeedDifference(owner, combat);
+        }
+
+        if (_counterTimes % 2 == 1)
+        {
+            ApplySpeedPenaltiesIfNecessary(owner, combat);
+        }
+
     }
     
     private void ApplySpeedPenaltiesIfNecessary(Character owner, Combat combat)

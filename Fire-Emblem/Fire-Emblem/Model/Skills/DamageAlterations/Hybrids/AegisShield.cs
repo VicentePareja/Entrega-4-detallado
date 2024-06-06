@@ -8,8 +8,16 @@ public class AegisShield : DamageAlterationSkill
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        owner.AddTemporaryBonus("Def", 6);
-        owner.AddTemporaryBonus("Res", 3);
-        owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", 50);
+        _counterTimes++;
+        if (_counterTimes % 2 == 1)
+        {
+            owner.AddTemporaryBonus("Def", 6);
+            owner.AddTemporaryBonus("Res", 3);
+        }
+        
+        if (_counterTimes % 2 == 0)
+        {
+            owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", 50);
+        }
     }
 }

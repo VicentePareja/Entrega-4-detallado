@@ -8,13 +8,17 @@ public class AxeGuard : DamageAlterationSkill
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
-        Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-        bool isOpponentAxe = opponent.Weapon == "Axe";
-        if (isOpponentAxe)
+        _counterTimes++;
+        if (_counterTimes % 2 == 0)
         {
-            double damageReduction = -5.0;
-            owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            Combat combat = battle.CurrentCombat;
+            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
+            bool isOpponentAxe = opponent.Weapon == "Axe";
+            if (isOpponentAxe)
+            {
+                double damageReduction = -5.0;
+                owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            }
         }
     }
 }

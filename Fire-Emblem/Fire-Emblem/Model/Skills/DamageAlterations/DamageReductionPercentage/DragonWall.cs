@@ -6,14 +6,18 @@ namespace Fire_Emblem
 
         public override void ApplyEffect(Battle battle, Character owner) 
         {
-            Combat combat = battle.CurrentCombat;
-            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-            int resistanceDifference = owner.GetEffectiveAttribute("Res") - opponent.GetEffectiveAttribute("Res");
-            if (resistanceDifference > 0) 
-                
+            _counterTimes++;
+            if (_counterTimes % 2 == 0)
             {
-                int damageReductionPercentage = Math.Min(resistanceDifference * 4, 40);
-                owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
+                Combat combat = battle.CurrentCombat;
+                Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
+                int resistanceDifference = owner.GetEffectiveAttribute("Res") - opponent.GetEffectiveAttribute("Res");
+                if (resistanceDifference > 0)
+
+                {
+                    int damageReductionPercentage = Math.Min(resistanceDifference * 4, 40);
+                    owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
+                }
             }
         }
     }

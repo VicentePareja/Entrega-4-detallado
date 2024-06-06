@@ -19,10 +19,7 @@ public class SkillApplier
     private void ApplyNonDamageAlterationSkills(Character unit)
     {
         foreach (var skill in unit.Skills) {
-            if (!skill.IsDamageAlteration)
-            {
-                skill.ApplyEffect(_battle, unit);
-            }
+            skill.ApplyEffect(_battle, unit);
         }
     }
     

@@ -9,9 +9,13 @@ public class BlueSkies : DamageAlterationSkill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         double damageReduction = -5.0; 
-        double extraDamage = 5.0;      
+        double extraDamage = 5.0; 
+        _counterTimes++;
         
-        owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
-        owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
+        if (_counterTimes % 2 == 0)
+        {
+            owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
+        }
     }
 }

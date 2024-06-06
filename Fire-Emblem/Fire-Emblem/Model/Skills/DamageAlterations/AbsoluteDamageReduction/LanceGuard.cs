@@ -8,13 +8,17 @@ public class LanceGuard : DamageAlterationSkill
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
-        Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-        bool isOpponentLance = opponent.Weapon == "Lance";
-        if (isOpponentLance)
+        _counterTimes++;
+        if (_counterTimes % 2 == 0)
         {
-            double damageReduction = -5.0;
-            owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            Combat combat = battle.CurrentCombat;
+            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
+            bool isOpponentLance = opponent.Weapon == "Lance";
+            if (isOpponentLance)
+            {
+                double damageReduction = -5.0;
+                owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            }
         }
     }
 }

@@ -22,33 +22,60 @@ namespace Fire_Emblem {
         public override void ApplyEffect(Battle battle, Character owner)
         {
             SetVariables(battle, owner);
+            _counterTimes++;
 
             if (_opponent.CurrentHP >= _opponent.MaxHP * 0.5)
             {
-                ApplyStatPenalties(_opponent);
-                SetAttackOrder();
-                double withOutReductionDamage = CalculateDamageOpponentWithOutReduction();
-                owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", _firstAttackDamageReduction);
-                double reducedDamage = CalculateDamageOpponentWithReduction();
-                double damageDifference = withOutReductionDamage - reducedDamage;
-                SetExtraDamage(owner, damageDifference);
+                if (_counterTimes % 2 == 1)
+                {
+                    ApplyStatPenalties(_opponent);
+                }
+
+                if (_counterTimes % 2 == 0)
+                {
+                    SetAttackOrder();
+                    double withOutReductionDamage = CalculateDamageOpponentWithOutReduction();
+                    owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", _firstAttackDamageReduction);
+                    double reducedDamage = CalculateDamageOpponentWithReduction();
+                    double damageDifference = withOutReductionDamage - reducedDamage;
+                    SetExtraDamage(owner, damageDifference);
+                }
             }
         }
-
-        private void SetExtraDamage(Character owner, double damageDifference)
+        
+        private void SetVariables(Battle battle, Character owner)
         {
-            _nextAttackExtraDamage = damageDifference;
-
-            if (_ownerNextAtack == "FollowUpAttacker")
+            Combat combat = battle.CurrentCombat;
+            _advantage = combat._advantage;
+            _attacker = combat._attacker;
+            _defender = combat._defender;
+            _opponent = DetermineOpponent(combat, owner);
+            _isOwnerAttacker = _attacker == owner;
+        }
+        
+        private void ApplyStatPenalties(Character opponent)
+        {
+            opponent.AddTemporaryPenalty("Atk", -4);
+            opponent.AddTemporaryPenalty("Spd", -4);
+            opponent.AddTemporaryPenalty("Def", -4);
+            opponent.AddTemporaryPenalty("Res", -4);
+        }
+        
+        private void SetAttackOrder()
+        {
+            if (_isOwnerAttacker)
             {
-                owner.AddFollowUpDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
+                _opponentFirstAtack = "CounterAttack";
+                _ownerNextAtack = "FollowUpAttacker";
             }
-            else if (_opponentFirstAtack == "CounterAttack")
+            else
             {
-                owner.AddFirstAttackDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
+                _opponentFirstAtack = "Attack";
+                _ownerNextAtack = "CounterAttack";
+
             }
         }
-
+        
         private double CalculateDamageOpponentWithOutReduction()
         {
             if (_opponentFirstAtack == "CounterAttack")
@@ -73,42 +100,23 @@ namespace Fire_Emblem {
             }
         }
 
-        private void SetAttackOrder()
+        private void SetExtraDamage(Character owner, double damageDifference)
         {
-            if (_isOwnerAttacker)
-            {
-                _opponentFirstAtack = "CounterAttack";
-                _ownerNextAtack = "FollowUpAttacker";
-            }
-            else
-            {
-                _opponentFirstAtack = "Attack";
-                _ownerNextAtack = "CounterAttack";
+            _nextAttackExtraDamage = damageDifference;
 
+            if (_ownerNextAtack == "FollowUpAttacker")
+            {
+                owner.AddFollowUpDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
+            }
+            else if (_opponentFirstAtack == "CounterAttack")
+            {
+                owner.AddFirstAttackDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
             }
         }
-
-        private void SetVariables(Battle battle, Character owner)
-        {
-            Combat combat = battle.CurrentCombat;
-            _advantage = combat._advantage;
-            _attacker = combat._attacker;
-            _defender = combat._defender;
-            _opponent = DetermineOpponent(combat, owner);
-            _isOwnerAttacker = _attacker == owner;
-        }
-
+        
         private Character DetermineOpponent(Combat combat, Character owner)
         {
             return (combat._attacker == owner) ? combat._defender : combat._attacker;
-        }
-
-        private void ApplyStatPenalties(Character opponent)
-        {
-            opponent.AddTemporaryPenalty("Atk", -4);
-            opponent.AddTemporaryPenalty("Spd", -4);
-            opponent.AddTemporaryPenalty("Def", -4);
-            opponent.AddTemporaryPenalty("Res", -4);
         }
 
         private int CalculateDamage()
