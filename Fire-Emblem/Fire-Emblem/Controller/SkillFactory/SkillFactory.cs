@@ -227,6 +227,10 @@ namespace Fire_Emblem {
                     return new DivineRecreation(name, description);
                 case "Windsweep":
                     return new Windsweep(name, description);
+                case "Surprise Attack":
+                    return new SurpriseAttack(name, description);
+                case "Hliðskjálf":
+                    return new Hliðskjálf(name, description);
             default:
                     return new GenericSkill(name, description);
             }

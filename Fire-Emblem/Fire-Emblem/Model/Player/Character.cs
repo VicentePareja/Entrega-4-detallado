@@ -169,6 +169,11 @@ public class Character
             _ => true
         };
     }
+    
+    public string GetWeaponType()
+    {
+        return Weapon;
+    }
 
 
     public void DisableAllBonuses()
