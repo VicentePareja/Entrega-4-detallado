@@ -1,5 +1,6 @@
 ﻿// SkillFactory.cs
 
+using System.Net.Http.Headers;
 using Fire_Emblem.NegateBonus;
 
 namespace Fire_Emblem {
@@ -231,6 +232,9 @@ namespace Fire_Emblem {
                     return new SurpriseAttack(name, description);
                 case "Hliðskjálf":
                     return new Hliðskjálf(name, description);
+                case "Null C-Disrupt":
+                    return new NullCDisrupt(name, description);
+                    
             default:
                     return new GenericSkill(name, description);
             }

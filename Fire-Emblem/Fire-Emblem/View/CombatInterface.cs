@@ -12,7 +12,7 @@ public class CombatInterface
     
     public void PrintSkills(Character character)
     {
-        PrintCouterAttackNegations(character);
+        PrintCounterAttackNegations(character);
         PrintBonuses(character);
         PrintFirstAttackBonuses(character);
         PrintFollowUpBonuses(character);
@@ -208,11 +208,20 @@ public class CombatInterface
         }
     }
     
-    private void PrintCouterAttackNegations(Character character)
+    private void PrintCounterAttackNegations(Character character)
     {
-        if (!character.CanCounterAttack() && !character.IsAttacking())
+        bool isCounterAttackNegated = character.IsCounterAttackNegated() && !character.IsAttacking();
+        if (isCounterAttackNegated)
         {
-            _view.WriteLine($"{character.Name} no podrá contraatacar");
+            
+            if (character.GetNegationOfCounterAttackNegation())
+            {
+                _view.WriteLine($"{character.Name} neutraliza los efectos que previenen sus contraataques");
+            }
+            else
+            {
+                _view.WriteLine($"{character.Name} no podrá contraatacar");
+            }
         }
     }
     

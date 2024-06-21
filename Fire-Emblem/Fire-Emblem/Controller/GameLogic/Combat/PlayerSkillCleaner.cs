@@ -36,5 +36,6 @@ public class PlayerSkillCleaner
     private void ReEnableAttacks(Character unit)
     {
         unit.ReEnableCounterAttack();
+        unit.DisableNegationOfCounterAttackNegation();
     }
 }

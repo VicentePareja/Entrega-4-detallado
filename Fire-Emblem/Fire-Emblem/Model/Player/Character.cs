@@ -41,9 +41,9 @@ public class Character
     public bool AreResPenaltiesEnabled { get; set; } = true;
     public bool AreSpdPenaltiesEnabled { get; set; } = true;
     public bool IsCounterAttackEnabled { get; set; } = true;
-    
     private bool IsAttacker { get; set; } = false;
-
+    
+    public bool IsNegationOfCounterAttackNegation { get; set; } = false;
     public Character()
     {
         Skills = new List<Skill>();
@@ -168,6 +168,11 @@ public class Character
             "Res" => AreResPenaltiesEnabled,
             _ => true
         };
+    }
+
+    public bool GetNegationOfCounterAttackNegation()
+    {
+        return IsNegationOfCounterAttackNegation;
     }
     
     public string GetWeaponType()
@@ -323,7 +328,7 @@ public class Character
     
     public bool CanCounterAttack()
     {
-        return IsCounterAttackEnabled;
+        return IsCounterAttackEnabled || IsNegationOfCounterAttackNegation;
     }
     
     public void DisableCounterAttack()
@@ -334,6 +339,16 @@ public class Character
     public void ReEnableCounterAttack()
     {
         IsCounterAttackEnabled = true;
+    }
+    
+    public void DisableNegationOfCounterAttackNegation()
+    {
+        IsNegationOfCounterAttackNegation = false;
+    }
+    
+    public void EnableNegationOfCounterAttackNegation()
+    {
+        IsNegationOfCounterAttackNegation = true;
     }
 
     public void SetAsAttacker()
@@ -349,5 +364,10 @@ public class Character
     public bool IsAttacking()
     {
         return IsAttacker;
+    }
+
+    public bool IsCounterAttackNegated()
+    {
+        return !IsCounterAttackEnabled;
     }
 }
