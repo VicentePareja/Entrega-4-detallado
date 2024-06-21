@@ -12,6 +12,7 @@ public class CombatInterface
     
     public void PrintSkills(Character character)
     {
+        PrintCouterAttackNegations(character);
         PrintBonuses(character);
         PrintFirstAttackBonuses(character);
         PrintFollowUpBonuses(character);
@@ -207,6 +208,18 @@ public class CombatInterface
         }
     }
     
+    private void PrintCouterAttackNegations(Character character)
+    {
+        if (!character.CanCounterAttack() && !character.IsAttacking())
+        {
+            _view.WriteLine($"{character.Name} no podrá contraatacar");
+        }
+    }
+    
+    public void PrintNoFollowUpNoCounterAttack(Character character)
+    {
+        _view.WriteLine($"{character.Name} no puede hacer un follow up");
+    }
     public void PrintNoFollowUp()
     {
         _view.WriteLine("Ninguna unidad puede hacer un follow up");

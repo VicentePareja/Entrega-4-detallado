@@ -32,6 +32,8 @@ namespace Fire_Emblem
 
         private void PrepareCombat()
         {
+            _attacker.SetAsAttacker();
+            _defender.SetAsDefender();
             _skillApplier.ApplySkills(_attacker, _defender);
             _combatInterface.PrintSkills(_attacker);
             _combatInterface.PrintSkills(_defender);
@@ -76,18 +78,43 @@ namespace Fire_Emblem
             if (_attacker.CurrentHP > 0 && _defender.CurrentHP > 0)
             {
                 Attack followUpAttack = new Attack(_attacker, _defender, _combatInterface);
-                if (_attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5)
+                if (IsFollowUpAttacker())
                 {
                     followUpAttack.PerformFollowUpAttacker(_advantage);
                 }
-                else if (_defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5)
+                else if (IsFollowUpDefender())
                 {
                     followUpAttack.PerformFollowUpDefender(_advantage);
                 }
                 else
                 {
-                    _combatInterface.PrintNoFollowUp();
+                    PerformNoFollowUp();
                 }
+            }
+        }
+
+        private bool IsFollowUpAttacker()
+        {
+            bool speedEnough = _attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5;
+            return speedEnough;
+        }
+
+        private bool IsFollowUpDefender()
+        {
+            bool speedEnough = _defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5;
+            bool canCounter = _defender.CanCounterAttack();
+            return speedEnough && canCounter;
+        }
+
+        private void PerformNoFollowUp()
+        {
+            if (!_defender.CanCounterAttack())
+            {
+                _combatInterface.PrintNoFollowUpNoCounterAttack(_attacker);
+            }
+            else
+            {
+                _combatInterface.PrintNoFollowUp();
             }
         }
         

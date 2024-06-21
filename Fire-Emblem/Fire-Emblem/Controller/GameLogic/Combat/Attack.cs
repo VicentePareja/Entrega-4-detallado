@@ -33,14 +33,18 @@ public class Attack
     
     public void PerformCounterAttack(string advantage)
     {
-        _weaponTriangleBonus = CalculateWeaponTriangleBonusForDefense(advantage);
-        int defenderAtk = _defender.GetFirstAttackAttribute("Atk");
-        int attackerDef = _attacker.GetFirstAttackAttribute(_defender.Weapon == "Magic" ? "Res" : "Def");
+        if (_defender.CanCounterAttack())
+        {
+            _weaponTriangleBonus = CalculateWeaponTriangleBonusForDefense(advantage);
+            int defenderAtk = _defender.GetFirstAttackAttribute("Atk");
+            int attackerDef = _attacker.GetFirstAttackAttribute(_defender.Weapon == "Magic" ? "Res" : "Def");
 
-        _damage = CalculateBaseDamageForDefense(defenderAtk, attackerDef);
-        _damage = ApplyDamageAlterationsForCounter();
-        _combatInterface.PrintAttack(_defender,_attacker , _damage);
-        _attacker.CurrentHP -= _damage;
+            _damage = CalculateBaseDamageForDefense(defenderAtk, attackerDef);
+            _damage = ApplyDamageAlterationsForCounter();
+            _combatInterface.PrintAttack(_defender,_attacker , _damage);
+            _attacker.CurrentHP -= _damage;
+        }
+        
     }
     
     public void PerformFollowUpAttacker(string advantage)

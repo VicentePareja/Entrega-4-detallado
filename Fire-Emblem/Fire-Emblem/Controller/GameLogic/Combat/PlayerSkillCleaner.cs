@@ -8,6 +8,7 @@ public class PlayerSkillCleaner
         ClearTemporaryBonuses(unit);
         ClearTemporaryPenalties(unit);
         CleanTemporaryDamageAlterations(unit);
+        ReEnableAttacks(unit);
     }
     private void ClearTemporaryBonuses(Character unit)
     {
@@ -30,5 +31,10 @@ public class PlayerSkillCleaner
         unit.CleanFirstAttackDamageAlterations();
         unit.CleanTemporaryDamageAlterations();
         unit.CleanFollowUpDamageAlterations();
+    }
+
+    private void ReEnableAttacks(Character unit)
+    {
+        unit.ReEnableCounterAttack();
     }
 }

@@ -40,6 +40,9 @@ public class Character
     public bool AreDefPenaltiesEnabled { get; set; } = true;
     public bool AreResPenaltiesEnabled { get; set; } = true;
     public bool AreSpdPenaltiesEnabled { get; set; } = true;
+    public bool IsCounterAttackEnabled { get; set; } = true;
+    
+    private bool IsAttacker { get; set; } = false;
 
     public Character()
     {
@@ -313,4 +316,33 @@ public class Character
         FollowUpDamageAlterations.Clear();
     }
     
+    public bool CanCounterAttack()
+    {
+        return IsCounterAttackEnabled;
+    }
+    
+    public void DisableCounterAttack()
+    {
+        IsCounterAttackEnabled = false;
+    }
+    
+    public void ReEnableCounterAttack()
+    {
+        IsCounterAttackEnabled = true;
+    }
+
+    public void SetAsAttacker()
+    {
+        IsAttacker = true;
+    }
+
+    public void SetAsDefender()
+    {
+        IsAttacker = false;
+    }
+    
+    public bool IsAttacking()
+    {
+        return IsAttacker;
+    }
 }
