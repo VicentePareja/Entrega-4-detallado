@@ -10,6 +10,7 @@ public class PlayerSkillCleaner
         CleanTemporaryDamageAlterations(unit);
         ReEnableAttacks(unit);
         CleanHealings(unit);
+        CleanNonCombatDamage(unit);
     }
     private void ClearTemporaryBonuses(Character unit)
     {
@@ -43,5 +44,11 @@ public class PlayerSkillCleaner
     private void CleanHealings(Character unit)
     {
         unit.ResetHealingEachAttackPercentage();
+    }
+    
+    private void CleanNonCombatDamage(Character unit)
+    {
+        unit.CleanDamageBeforeCombat();
+        unit.CleanDamageAfterCombat();
     }
 }

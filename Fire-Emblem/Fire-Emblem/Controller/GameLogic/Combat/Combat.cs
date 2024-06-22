@@ -37,6 +37,7 @@ namespace Fire_Emblem
             _skillApplier.ApplySkills(_attacker, _defender);
             _combatInterface.PrintSkills(_attacker);
             _combatInterface.PrintSkills(_defender);
+            PerformBeforeCombatDamage();
         }
 
         private void ExecuteCombat()
@@ -54,9 +55,35 @@ namespace Fire_Emblem
         
         private void FinalizeCombat()
         {
+            PerformAfterCombatDamage();
             _playerSkillCleaner.ClearSkills(_attacker);
             _playerSkillCleaner.ClearSkills(_defender);
             _combatInterface.PrintFinalState(_attacker, _defender);
+        }
+
+        private void PerformBeforeCombatDamage()
+        {
+            ChangeHealthBeforeCombate(_attacker);
+            ChangeHealthBeforeCombate(_defender);
+            _combatInterface.PrintBeforeCombatDamage(_attacker);
+            _combatInterface.PrintBeforeCombatDamage(_defender);
+        }
+        
+        private void ChangeHealthBeforeCombate(Character character)
+        {
+            int dmg = character.GetDamageBeforeCombat();
+            character.CurrentHP -= dmg;
+            if (character.CurrentHP <= 0)
+            {
+                character.CurrentHP = 1;
+            }
+            
+        }
+        
+        private void PerformAfterCombatDamage()
+        {
+            _combatInterface.PrintAfterCombatDamage(_attacker);
+            _combatInterface.PrintAfterCombatDamage(_defender);
         }
         private void PerformInitialAttack()
         {

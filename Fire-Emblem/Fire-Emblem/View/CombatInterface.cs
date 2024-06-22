@@ -262,4 +262,35 @@ public class CombatInterface
     {
         _view.WriteLine($"{attacker.Name} ataca a {defender.Name} con {damage} de daño");
     }
+
+    public void PrintBeforeCombatDamage(Character character)
+    {
+        string name = character.Name;
+        int currentHP = character.CurrentHP;
+        int damage = character.GetDamageBeforeCombat();
+        
+        if (damage > 0)
+        {
+            _view.WriteLine($"{name} recibe {damage} de daño antes de iniciar el combate y queda con {currentHP} HP");
+        }else if (damage < 0)
+        {
+            _view.WriteLine($"{name} recupera {-damage} HP antes de iniciar el combate y queda con {currentHP} HP");
+        }
+        
+    }
+    
+    public void PrintAfterCombatDamage(Character character)
+    {
+        string name = character.Name;
+        int currentHP = character.CurrentHP;
+        int damage = character.GetDamageAfterCombat();
+        
+        if (damage > 0)
+        {
+            _view.WriteLine($"{name} recibe {damage} de daño después de terminar el combate y queda con {currentHP} HP");
+        }else if (damage < 0)
+        {
+            _view.WriteLine($"{name} recupera {-damage} HP después de terminar el combate y queda con {currentHP} HP");
+        }
+    }
 }

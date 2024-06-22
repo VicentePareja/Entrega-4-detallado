@@ -10,7 +10,7 @@ public class Resonance : Skill
         bool IsEffect = owner.GetWeaponType() == "Magic" && owner.CurrentHP >= 2;
         if (IsEffect)
         {
-            owner.CurrentHP -= 1;
+            owner.AddDamageBeforeCombat(1);
             owner.AddTemporaryDamageAlteration("ExtraDamage", 3);
         }
     }

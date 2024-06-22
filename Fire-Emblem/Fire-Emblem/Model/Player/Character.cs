@@ -14,7 +14,10 @@ public class Character
     public int CurrentHP
     { 
         get => _currentHP; 
-        set => _currentHP = Math.Max(value, 0); 
+        set 
+        { 
+            _currentHP = Math.Min(Math.Max(value, 0), MaxHP);
+        } 
     }
     [JsonConverter(typeof(StringToIntConverter))] [JsonPropertyName("Atk")] public int Atk { get; set; }
     [JsonConverter(typeof(StringToIntConverter))] [JsonPropertyName("Spd")] public int Spd { get; set; }
@@ -31,9 +34,9 @@ public class Character
     public Dictionary<string, int> TemporaryFollowUpPenalties { get; private set; }
     private Dictionary<string, double> FollowUpDamageAlterations { get; set; }
     public Dictionary<string, double> DamageReduced { get; private set; }
-
     private double HealingEachAttackPercentage;
-    
+    private int _damageBeforeCombat;
+    private int _damageAfterCombat;
     public bool AreAtkBonusesEnabled { get; set; } = true;
     public bool AreDefBonusesEnabled { get; set; } = true;
     public bool AreResBonusesEnabled { get; set; } = true;
@@ -59,6 +62,8 @@ public class Character
         FollowUpDamageAlterations = new Dictionary<string, double>();
         DamageReduced = new Dictionary<string, double>();
         HealingEachAttackPercentage = 0.0;
+        _damageAfterCombat = 0;
+        _damageBeforeCombat = 0;
 
     }
 
@@ -402,5 +407,35 @@ public class Character
         {
             CurrentHP += value;
         }
+    }
+    
+    public void AddDamageBeforeCombat(int value)
+    {
+        _damageBeforeCombat += value;
+    }
+
+    public void AddDamageAfterCombat(int value)
+    {
+        _damageAfterCombat += value;
+    }
+    
+    public void CleanDamageBeforeCombat()
+    {
+        _damageBeforeCombat = 0;
+    }
+    
+    public void CleanDamageAfterCombat()
+    {
+        _damageAfterCombat = 0;
+    }
+    
+    public int GetDamageBeforeCombat()
+    {
+        return _damageBeforeCombat;
+    }
+    
+    public int GetDamageAfterCombat()
+    {
+        return _damageAfterCombat;
     }
 }
