@@ -244,6 +244,8 @@ namespace Fire_Emblem {
                     return new LawsOfSacae(name, description);
                 case "Eclipse Brace":
                     return new EclipseBrace(name, description);
+                case "Resonance":
+                    return new Resonance(name, description);
                     
             default:
                     return new GenericSkill(name, description);

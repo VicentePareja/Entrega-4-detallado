@@ -16,7 +16,10 @@ public class EclipseBrace : Skill
         if (isAttacker)
         {
             double extraDamage = 0.3 * _opponent.GetEffectiveAttribute("Def");
-            owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
+            if(owner.GetWeaponType() != "Magic")
+            {
+                owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
+            }
             owner.AddHealingEachAttackPercentage(50);
         }
     }
