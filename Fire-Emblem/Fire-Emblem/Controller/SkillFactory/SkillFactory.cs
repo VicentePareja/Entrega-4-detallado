@@ -236,6 +236,10 @@ namespace Fire_Emblem {
                     return new NullCDisrupt(name, description);
                 case "Sol":
                     return new Sol(name, description);
+                case "Nosferatu":
+                    return new Nosferatu(name, description);
+                case "Solar Brace":
+                    return new SolarBrace(name, description);
                     
             default:
                     return new GenericSkill(name, description);
