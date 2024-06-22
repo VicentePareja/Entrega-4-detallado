@@ -246,6 +246,8 @@ namespace Fire_Emblem {
                     return new EclipseBrace(name, description);
                 case "Resonance":
                     return new Resonance(name, description);
+                case "Flare":
+                    return new Flare(name, description);
                     
             default:
                     return new GenericSkill(name, description);
