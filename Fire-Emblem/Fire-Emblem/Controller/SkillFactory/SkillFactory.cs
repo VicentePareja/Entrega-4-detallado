@@ -254,6 +254,16 @@ namespace Fire_Emblem {
                     return new MysticBoost(name, description);
                 case "Atk/Spd Push":
                     return new AtkSpdPush(name, description);
+                case "Atk/Def Push":
+                    return new AtkDefPush(name, description);
+                case "Atk/Res Push":
+                    return new AtkResPush(name, description);
+                case "Spd/Def Push":
+                    return new SpdDefPush(name, description);
+                case "Spd/Res Push":
+                    return new SpdResPush(name, description);
+                case "Def/Res Push":
+                    return new DefResPush(name, description);
                     
             default:
                     return new GenericSkill(name, description);
