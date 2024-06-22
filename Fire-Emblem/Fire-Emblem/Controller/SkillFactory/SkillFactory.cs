@@ -242,6 +242,8 @@ namespace Fire_Emblem {
                     return new SolarBrace(name, description);
                 case "Laws of Sacae":
                     return new LawsOfSacae(name, description);
+                case "Eclipse Brace":
+                    return new EclipseBrace(name, description);
                     
             default:
                     return new GenericSkill(name, description);
