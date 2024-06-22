@@ -47,6 +47,10 @@ public class Character
     public bool AreSpdPenaltiesEnabled { get; set; } = true;
     public bool IsCounterAttackEnabled { get; set; } = true;
     private bool IsAttacker { get; set; } = false;
+    
+    private bool _hasAttacked { get; set; } = false;
+    
+    private bool _pushActive { get; set; } = false;
     public bool IsNegationOfCounterAttackNegation { get; set; } = false;
     public Character()
     {
@@ -437,5 +441,31 @@ public class Character
     public int GetDamageAfterCombat()
     {
         return _damageAfterCombat;
+    }
+    public bool GetHasAttacked()
+    {
+        return _hasAttacked;
+    }
+    
+    public void SetHasAttacked()
+    {
+        _hasAttacked = true;
+    }
+    public void CleanHasAttacked()
+    {
+        _hasAttacked = false;
+    }
+    
+    public void SetPushActive()
+    {
+        _pushActive = true;
+    }
+    public bool GetPushSkills()
+    {
+        return _pushActive;
+    }
+    public void CleanPushSkills()
+    {
+        _pushActive = false;
     }
 }

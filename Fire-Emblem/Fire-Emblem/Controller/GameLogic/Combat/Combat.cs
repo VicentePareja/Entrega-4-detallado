@@ -55,6 +55,8 @@ namespace Fire_Emblem
         
         private void FinalizeCombat()
         {
+            _skillApplier.ApplyPushSkills(_attacker);
+            _skillApplier.ApplyPushSkills(_defender);
             PerformAfterCombatDamage();
             _playerSkillCleaner.ClearSkills(_attacker);
             _playerSkillCleaner.ClearSkills(_defender);
@@ -110,6 +112,7 @@ namespace Fire_Emblem
         {
             Attack attack = new Attack(_attacker, _defender, _combatInterface);
             attack.PerformAttack(_advantage);
+            _attacker.SetHasAttacked();
         }
 
         private void PerformCounterAttack()
@@ -118,6 +121,7 @@ namespace Fire_Emblem
             {
                 Attack counterAttack = new Attack(_attacker, _defender, _combatInterface);
                 counterAttack.PerformCounterAttack(_advantage);
+                _defender.SetHasAttacked();
             }
         }
 
@@ -129,10 +133,12 @@ namespace Fire_Emblem
                 if (IsFollowUpAttacker())
                 {
                     followUpAttack.PerformFollowUpAttacker(_advantage);
+                    _attacker.SetHasAttacked();
                 }
                 else if (IsFollowUpDefender())
                 {
                     followUpAttack.PerformFollowUpDefender(_advantage);
+                    _defender.SetHasAttacked();
                 }
                 else
                 {

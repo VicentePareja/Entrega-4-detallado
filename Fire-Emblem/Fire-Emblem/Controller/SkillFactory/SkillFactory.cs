@@ -252,6 +252,8 @@ namespace Fire_Emblem {
                     return new Fury(name, description);
                 case "Mystic Boost":
                     return new MysticBoost(name, description);
+                case "Atk/Spd Push":
+                    return new AtkSpdPush(name, description);
                     
             default:
                     return new GenericSkill(name, description);

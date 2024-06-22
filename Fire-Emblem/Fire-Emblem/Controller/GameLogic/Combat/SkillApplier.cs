@@ -32,4 +32,13 @@ public class SkillApplier
             }
         }
     }
+
+    public void ApplyPushSkills(Character unit)
+    {
+        bool pushCondition = unit.GetPushSkills() && unit.GetHasAttacked();
+        if (pushCondition)
+        {
+            unit.AddDamageAfterCombat(5);
+        }
+    }
 }
