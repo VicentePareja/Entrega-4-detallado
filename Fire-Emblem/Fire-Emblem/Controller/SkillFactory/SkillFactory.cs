@@ -234,6 +234,8 @@ namespace Fire_Emblem {
                     return new Hliðskjálf(name, description);
                 case "Null C-Disrupt":
                     return new NullCDisrupt(name, description);
+                case "Sol":
+                    return new Sol(name, description);
                     
             default:
                     return new GenericSkill(name, description);

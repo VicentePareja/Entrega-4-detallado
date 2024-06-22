@@ -31,6 +31,8 @@ public class Character
     public Dictionary<string, int> TemporaryFollowUpPenalties { get; private set; }
     private Dictionary<string, double> FollowUpDamageAlterations { get; set; }
     public Dictionary<string, double> DamageReduced { get; private set; }
+
+    private double HealingEachAttackPercentage;
     
     public bool AreAtkBonusesEnabled { get; set; } = true;
     public bool AreDefBonusesEnabled { get; set; } = true;
@@ -42,7 +44,6 @@ public class Character
     public bool AreSpdPenaltiesEnabled { get; set; } = true;
     public bool IsCounterAttackEnabled { get; set; } = true;
     private bool IsAttacker { get; set; } = false;
-    
     public bool IsNegationOfCounterAttackNegation { get; set; } = false;
     public Character()
     {
@@ -57,7 +58,8 @@ public class Character
         TemporaryFollowUpPenalties = new Dictionary<string, int>();
         FollowUpDamageAlterations = new Dictionary<string, double>();
         DamageReduced = new Dictionary<string, double>();
-        
+        HealingEachAttackPercentage = 0.0;
+
     }
 
     public void AddSkill(Skill skill)
@@ -168,6 +170,11 @@ public class Character
             "Res" => AreResPenaltiesEnabled,
             _ => true
         };
+    }
+    
+    public double GetHealingEachAttackPercentage()
+    {
+        return HealingEachAttackPercentage;
     }
 
     public bool GetNegationOfCounterAttackNegation()
@@ -369,5 +376,31 @@ public class Character
     public bool IsCounterAttackNegated()
     {
         return !IsCounterAttackEnabled;
+    }
+    
+    public void ResetHealingEachAttackPercentage()
+    {
+        HealingEachAttackPercentage = 0.0;
+    }
+    
+    public void AddHealingEachAttackPercentage(double value)
+    {
+        HealingEachAttackPercentage += value;
+    }
+    
+    public void AddHealth(int value)
+    {
+        if (CurrentHP + value > MaxHP)
+        {
+            CurrentHP = MaxHP;
+        }
+        else if (CurrentHP + value < 0)
+        {
+            CurrentHP = 0;
+        }
+        else
+        {
+            CurrentHP += value;
+        }
     }
 }

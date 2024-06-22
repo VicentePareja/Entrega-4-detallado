@@ -28,6 +28,7 @@ public class Attack
         _damage = CalculateBaseDamageForAttack(attackerAtk, defenderDef);
         _damage = ApplyDamageAlterationsForAttack();
         _combatInterface.PrintAttack(_attacker, _defender, _damage);
+        PerformEachAttackHealing(_attacker);
         _defender.CurrentHP -= _damage;
     }
     
@@ -42,6 +43,7 @@ public class Attack
             _damage = CalculateBaseDamageForDefense(defenderAtk, attackerDef);
             _damage = ApplyDamageAlterationsForCounter();
             _combatInterface.PrintAttack(_defender,_attacker , _damage);
+            PerformEachAttackHealing(_defender);
             _attacker.CurrentHP -= _damage;
         }
         
@@ -56,6 +58,7 @@ public class Attack
         _damage = CalculateBaseDamageForAttack(attackerAtk, defenderDef);
         _damage = ApplyDamageAlterationsForFollowUp();
         _combatInterface.PrintAttack(_attacker, _defender, _damage);
+        PerformEachAttackHealing(_attacker);
 
         _defender.CurrentHP -= _damage;
     }
@@ -69,6 +72,7 @@ public class Attack
         _damage = CalculateBaseDamageForDefense(defenderAtk, attackerDef);
         _damage = ApplyDamageAlterationsForDefense();
         _combatInterface.PrintAttack(_defender,_attacker , _damage);
+        PerformEachAttackHealing(_defender);
 
         _attacker.CurrentHP -= _damage;
     }
@@ -146,6 +150,13 @@ public class Attack
         _absoluteReduction = _attacker.GetFollowUpDamageAlteration("AbsoluteReduction");
 
         return CalculateDamage();
+    }
+
+    private void PerformEachAttackHealing(Character receiver)
+    {
+        int healing = (int)(_damage * receiver.GetHealingEachAttackPercentage()/100);
+        receiver.AddHealth(healing);
+        _combatInterface.PrintHealing(receiver, healing);
     }
     
 }

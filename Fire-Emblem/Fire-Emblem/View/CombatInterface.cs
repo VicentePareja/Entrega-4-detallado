@@ -12,7 +12,6 @@ public class CombatInterface
     
     public void PrintSkills(Character character)
     {
-        PrintCounterAttackNegations(character);
         PrintBonuses(character);
         PrintFirstAttackBonuses(character);
         PrintFollowUpBonuses(character);
@@ -24,6 +23,8 @@ public class CombatInterface
         PrintExtraDamage(character);
         PrintOpponentPercentageReduction(character);
         PrintAbsoluteReduction(character);
+        PrintHealingEachAttack(character);
+        PrintCounterAttackNegations(character);
     }
 
     private void PrintBonuses(Character character)
@@ -222,6 +223,24 @@ public class CombatInterface
             {
                 _view.WriteLine($"{character.Name} no podrá contraatacar");
             }
+        }
+    }
+
+    public void PrintHealingEachAttack(Character character)
+    {
+        double healing = character.GetHealingEachAttackPercentage();
+        if (healing > 0)
+        {
+            _view.WriteLine($"{character.Name} recuperará HP igual al {healing}% del daño realizado en cada ataque");
+        }
+    }
+    
+    public void PrintHealing(Character character, int healing)
+    {
+        if (healing > 0)
+        {
+            int currentHP = character.CurrentHP;
+            _view.WriteLine($"{character.Name} recupera {healing} HP luego de atacar y queda con {currentHP} HP.");
         }
     }
     
