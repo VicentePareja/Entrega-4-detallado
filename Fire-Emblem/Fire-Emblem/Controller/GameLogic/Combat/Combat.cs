@@ -71,19 +71,40 @@ namespace Fire_Emblem
         
         private void ChangeHealthBeforeCombate(Character character)
         {
+            if (character.CurrentHP > 0){}
             int dmg = character.GetDamageBeforeCombat();
             character.CurrentHP -= dmg;
             if (character.CurrentHP <= 0)
             {
                 character.CurrentHP = 1;
             }
-            
         }
         
         private void PerformAfterCombatDamage()
         {
-            _combatInterface.PrintAfterCombatDamage(_attacker);
-            _combatInterface.PrintAfterCombatDamage(_defender);
+            if (_attacker.CurrentHP > 0)
+            {
+                ChangeHealthAfterCombat(_attacker);
+                _combatInterface.PrintAfterCombatDamage(_attacker);
+            }
+            if (_defender.CurrentHP > 0)
+            {
+                ChangeHealthAfterCombat(_defender);
+                _combatInterface.PrintAfterCombatDamage(_defender); 
+            }
+            
+        }
+        
+        private void ChangeHealthAfterCombat(Character character)
+        {
+            {
+                int dmg = character.GetDamageAfterCombat();
+                character.CurrentHP -= dmg;
+                if (character.CurrentHP <= 0)
+                {
+                    character.CurrentHP = 1;
+                }
+            }
         }
         private void PerformInitialAttack()
         {

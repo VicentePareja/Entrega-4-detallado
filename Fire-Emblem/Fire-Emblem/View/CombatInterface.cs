@@ -287,7 +287,7 @@ public class CombatInterface
         
         if (damage > 0)
         {
-            _view.WriteLine($"{name} recibe {damage} de daño después de terminar el combate y queda con {currentHP} HP");
+            _view.WriteLine($"{name} recibe {damage} de daño despues del combate");
         }else if (damage < 0)
         {
             _view.WriteLine($"{name} recupera {-damage} HP después de terminar el combate y queda con {currentHP} HP");

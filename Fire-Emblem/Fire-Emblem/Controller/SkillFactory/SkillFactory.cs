@@ -248,6 +248,8 @@ namespace Fire_Emblem {
                     return new Resonance(name, description);
                 case "Flare":
                     return new Flare(name, description);
+                case "Fury":
+                    return new Fury(name, description);
                     
             default:
                     return new GenericSkill(name, description);
