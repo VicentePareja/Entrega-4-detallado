@@ -240,6 +240,8 @@ namespace Fire_Emblem {
                     return new Nosferatu(name, description);
                 case "Solar Brace":
                     return new SolarBrace(name, description);
+                case "Laws of Sacae":
+                    return new LawsOfSacae(name, description);
                     
             default:
                     return new GenericSkill(name, description);
