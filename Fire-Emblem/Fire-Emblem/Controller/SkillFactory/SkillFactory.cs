@@ -264,6 +264,8 @@ namespace Fire_Emblem {
                     return new SpdResPush(name, description);
                 case "Def/Res Push":
                     return new DefResPush(name, description);
+                case "True Dragon Wall":
+                    return new TrueDragonWall(name, description);
                     
             default:
                     return new GenericSkill(name, description);

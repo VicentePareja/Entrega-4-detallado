@@ -57,5 +57,9 @@ namespace Fire_Emblem {
         public void RecordCombat(Character attacker, Character defender) {
             CombatHistory.Add((Attacker: attacker, Defender: defender));
         }
+        
+        public List<Player> GetPlayers() {
+            return new List<Player> {_player1, _player2};
+        }
     }
 }
