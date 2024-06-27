@@ -268,6 +268,8 @@ namespace Fire_Emblem {
                     return new TrueDragonWall(name, description);
                 case "Scendscale":
                     return new Scendscale(name, description);
+                case "Mastermind":
+                    return new MasterMind(name, description);
                     
             default:
                     return new GenericSkill(name, description);
