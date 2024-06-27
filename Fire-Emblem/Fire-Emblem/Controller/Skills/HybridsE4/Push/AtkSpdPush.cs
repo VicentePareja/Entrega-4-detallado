@@ -1,18 +1,43 @@
-namespace Fire_Emblem;
-
-public class AtkSpdPush : Skill
+namespace Fire_Emblem
 {
-    public AtkSpdPush(string name, string description) : base(name, description)
+    public class AtkSpdPush : Skill
     {
-    }
-    
-    public override void ApplyEffect(Battle battle, Character owner)
-    {
-        int bonus = 7;
-        if (owner.CurrentHP >= 0.25 * owner.MaxHP)
+        private const int BonusValue = 7;
+        private const double MinimumHpPercentage = 0.25;
+        private const int PushBonus = 5;
+
+        public AtkSpdPush(string name, string description) : base(name, description)
         {
-            owner.AddTemporaryBonus("Atk", bonus);
-            owner.AddTemporaryBonus("Spd", bonus);
+        }
+
+        public override void ApplyEffect(Battle battle, Character owner)
+        {
+            if (IsHealthAboveThreshold(owner))
+            {
+                ApplyAttackSpeedBonus(owner);
+                SetPushBonus(owner);
+                ActivatePush(owner);
+            }
+        }
+
+        private bool IsHealthAboveThreshold(Character owner)
+        {
+            return owner.CurrentHP >= MinimumHpPercentage * owner.MaxHP;
+        }
+
+        private void ApplyAttackSpeedBonus(Character owner)
+        {
+            owner.AddTemporaryBonus("Atk", BonusValue);
+            owner.AddTemporaryBonus("Spd", BonusValue);
+        }
+
+        private void SetPushBonus(Character owner)
+        {
+            owner.pushBonus = PushBonus;
+        }
+
+        private void ActivatePush(Character owner)
+        {
             owner.SetPushActive();
         }
     }

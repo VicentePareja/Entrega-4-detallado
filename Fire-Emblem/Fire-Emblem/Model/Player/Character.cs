@@ -37,6 +37,7 @@ public class Character
     private double HealingEachAttackPercentage;
     private int _damageBeforeCombat;
     private int _damageAfterCombat;
+    public int pushBonus { get; set; }
     public bool AreAtkBonusesEnabled { get; set; } = true;
     public bool AreDefBonusesEnabled { get; set; } = true;
     public bool AreResBonusesEnabled { get; set; } = true;
@@ -467,5 +468,6 @@ public class Character
     public void CleanPushSkills()
     {
         _pushActive = false;
+        pushBonus = 0;
     }
 }

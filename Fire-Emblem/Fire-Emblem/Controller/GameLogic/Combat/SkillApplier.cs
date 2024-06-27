@@ -38,7 +38,8 @@ public class SkillApplier
         bool pushCondition = unit.GetPushSkills() && unit.GetHasAttacked();
         if (pushCondition)
         {
-            unit.AddDamageAfterCombat(5);
+            int bonus = unit.pushBonus;
+            unit.AddDamageAfterCombat(bonus);
         }
     }
 }

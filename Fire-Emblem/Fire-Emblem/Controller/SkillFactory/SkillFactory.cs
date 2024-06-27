@@ -266,6 +266,8 @@ namespace Fire_Emblem {
                     return new DefResPush(name, description);
                 case "True Dragon Wall":
                     return new TrueDragonWall(name, description);
+                case "Scendscale":
+                    return new Scendscale(name, description);
                     
             default:
                     return new GenericSkill(name, description);
