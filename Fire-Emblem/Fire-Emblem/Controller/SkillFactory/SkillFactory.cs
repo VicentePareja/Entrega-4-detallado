@@ -270,6 +270,8 @@ namespace Fire_Emblem {
                     return new Scendscale(name, description);
                 case "Mastermind":
                     return new MasterMind(name, description);
+                case "Bewitching Tome":
+                    return new BewitchingTome(name, description);
                     
             default:
                     return new GenericSkill(name, description);
