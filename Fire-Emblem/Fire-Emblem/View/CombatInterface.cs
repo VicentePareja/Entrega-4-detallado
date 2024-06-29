@@ -113,8 +113,8 @@ public class CombatInterface
     {
         PrintFollowGarantizations(character);
         PrintFollowUpNegations(character);
-        PrintNegationOfFollowUpGarantization(character);
         PrintNegationOfFollowUpNegation(character);
+        PrintNegationOfFollowUpGarantization(character);
     }
     
     private void PrintTemporaryBonuses(Character character)
