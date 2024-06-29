@@ -12,6 +12,7 @@ namespace Fire_Emblem
         private readonly PlayerSkillCleaner _playerSkillCleaner;
         private readonly SkillApplier _skillApplier;
         private bool _followUp;
+        private Attack _currentAttack;
 
         public Combat(Character attacker, Character defender, string advantage, CombatInterface combatInterface, Battle battle)
         {
@@ -22,6 +23,7 @@ namespace Fire_Emblem
             _battle = battle;
             _playerSkillCleaner = new PlayerSkillCleaner();
             _skillApplier = new SkillApplier(_battle);
+            _currentAttack = new Attack(_attacker, _defender, _combatInterface);
         }
 
         public void Start()
@@ -111,8 +113,7 @@ namespace Fire_Emblem
         }
         private void PerformInitialAttack()
         {
-            Attack attack = new Attack(_attacker, _defender, _combatInterface);
-            attack.PerformAttack(_advantage);
+            _currentAttack.PerformAttack(_advantage);
             _attacker.SetHasAttacked();
         }
 
@@ -120,8 +121,7 @@ namespace Fire_Emblem
         {
             if (_defender.CurrentHP > 0)
             {
-                Attack counterAttack = new Attack(_attacker, _defender, _combatInterface);
-                counterAttack.PerformCounterAttack(_advantage);
+                _currentAttack.PerformCounterAttack(_advantage);
                 _defender.SetHasAttacked();
             }
         }
@@ -131,24 +131,33 @@ namespace Fire_Emblem
             if (CharactersAreAlive())
             {
                 _followUp = false;
-                Attack followUpAttack = new Attack(_attacker, _defender, _combatInterface);
                 if (IsFollowUpAttacker())
                 {
-                    followUpAttack.PerformFollowUpAttacker(_advantage);
-                    _attacker.SetHasAttacked();
-                    _followUp = true;
+                    PerformFollowUpAttacker();
                 }
                 if (IsFollowUpDefender())
                 {
-                    followUpAttack.PerformFollowUpDefender(_advantage);
-                    _defender.SetHasAttacked();
-                    _followUp = true;
+                    PerformFollowUpDefender();
                 }
                 if(!_followUp)
                 {
                     PerformNoFollowUp();
                 }
             }
+        }
+        
+        private void PerformFollowUpAttacker()
+        {
+            _currentAttack.PerformFollowUpAttacker(_advantage);
+            _attacker.SetHasAttacked();
+            _followUp = true;
+        }
+        
+        private void PerformFollowUpDefender()
+        {
+            _currentAttack.PerformFollowUpDefender(_advantage);
+            _defender.SetHasAttacked();
+            _followUp = true;
         }
         
         private bool CharactersAreAlive()
