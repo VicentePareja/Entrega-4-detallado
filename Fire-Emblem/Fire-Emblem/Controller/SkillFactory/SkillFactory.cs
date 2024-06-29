@@ -300,6 +300,8 @@ namespace Fire_Emblem {
                     return new MirrorImpact(name, description);
                 case "Swift Impact":
                     return new SwiftImpact(name, description);
+                case "Steady Impact":
+                    return new SteadyImpact(name, description);
                     
             default:
                     return new GenericSkill(name, description);
