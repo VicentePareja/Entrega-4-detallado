@@ -1,16 +1,18 @@
 namespace Fire_Emblem;
 
-public class SturdyImpact : Skill
+public class SwiftImpact : Skill
 {
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
-    private const int _defBonus = 10;
-    private const int _atkBonus = 6;
-    public SturdyImpact(string name, string description) : base(name, description)
-    {
-    }
+    private const int _resBonus = 10;
+    private const int _spdBonus = 6;
     
+    public SwiftImpact(string name, string description) : base(name, description)
+    {
+        
+    }
+
     public override void ApplyEffect(Battle battle, Character owner)
     {
         SetAttributes(battle, owner);
@@ -34,8 +36,8 @@ public class SturdyImpact : Skill
     
     private void DoEffect()
     {
-        _owner.AddTemporaryBonus("Def", _defBonus);
-        _owner.AddTemporaryBonus("Atk", _atkBonus);
+        _owner.AddTemporaryBonus("Res", _resBonus);
+        _owner.AddTemporaryBonus("Spd", _spdBonus);
         _opponent.FollowUpNegation += 1;
     }
 }

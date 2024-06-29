@@ -1,13 +1,14 @@
 namespace Fire_Emblem;
 
-public class SturdyImpact : Skill
+public class MirrorImpact : Skill
 {
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
-    private const int _defBonus = 10;
+    private const int _resBonus = 10;
     private const int _atkBonus = 6;
-    public SturdyImpact(string name, string description) : base(name, description)
+    
+    public MirrorImpact(string name, string description) : base(name, description)
     {
     }
     
@@ -34,7 +35,7 @@ public class SturdyImpact : Skill
     
     private void DoEffect()
     {
-        _owner.AddTemporaryBonus("Def", _defBonus);
+        _owner.AddTemporaryBonus("Res", _resBonus);
         _owner.AddTemporaryBonus("Atk", _atkBonus);
         _opponent.FollowUpNegation += 1;
     }

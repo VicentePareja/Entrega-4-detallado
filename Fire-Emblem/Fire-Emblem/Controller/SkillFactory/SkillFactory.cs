@@ -296,6 +296,10 @@ namespace Fire_Emblem {
                     return new NullFollowUp(name, description);
                 case "Sturdy Impact":
                     return new SturdyImpact(name, description);
+                case "Mirror Impact":
+                    return new MirrorImpact(name, description);
+                case "Swift Impact":
+                    return new SwiftImpact(name, description);
                     
             default:
                     return new GenericSkill(name, description);
