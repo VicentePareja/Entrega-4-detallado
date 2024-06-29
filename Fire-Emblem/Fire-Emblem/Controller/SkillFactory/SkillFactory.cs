@@ -286,6 +286,8 @@ namespace Fire_Emblem {
                     return new BrashAssault(name, description);
                 case "Melee Breaker":
                     return new MeleeBreaker(name, description);
+                case "Range Breaker":
+                    return new RangeBreaker(name, description);
                     
             default:
                     return new GenericSkill(name, description);
