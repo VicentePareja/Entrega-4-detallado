@@ -11,6 +11,7 @@ namespace Fire_Emblem
         private readonly Battle _battle;
         private readonly PlayerSkillCleaner _playerSkillCleaner;
         private readonly SkillApplier _skillApplier;
+        private bool _followUp;
 
         public Combat(Character attacker, Character defender, string advantage, CombatInterface combatInterface, Battle battle)
         {
@@ -127,37 +128,47 @@ namespace Fire_Emblem
 
         private void PerformFollowUp()
         {
-            if (_attacker.CurrentHP > 0 && _defender.CurrentHP > 0)
+            if (CharactersAreAlive())
             {
+                _followUp = false;
                 Attack followUpAttack = new Attack(_attacker, _defender, _combatInterface);
                 if (IsFollowUpAttacker())
                 {
                     followUpAttack.PerformFollowUpAttacker(_advantage);
                     _attacker.SetHasAttacked();
+                    _followUp = true;
                 }
-                else if (IsFollowUpDefender())
+                if (IsFollowUpDefender())
                 {
                     followUpAttack.PerformFollowUpDefender(_advantage);
                     _defender.SetHasAttacked();
+                    _followUp = true;
                 }
-                else
+                if(!_followUp)
                 {
                     PerformNoFollowUp();
                 }
             }
         }
+        
+        private bool CharactersAreAlive()
+        {
+            return _attacker.CurrentHP > 0 && _defender.CurrentHP > 0;
+        }
 
         private bool IsFollowUpAttacker()
         {
             bool speedEnough = _attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5;
-            return speedEnough;
+            bool garantiedFollowUp = _attacker.FollowUpGarantization >= 1;
+            return speedEnough || garantiedFollowUp;
         }
 
         private bool IsFollowUpDefender()
         {
             bool speedEnough = _defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5;
             bool canCounter = _defender.CanCounterAttack();
-            return speedEnough && canCounter;
+            bool garantiedFollowUp = _defender.FollowUpGarantization >= 1;
+            return (speedEnough || garantiedFollowUp) && canCounter;
         }
 
         private void PerformNoFollowUp()

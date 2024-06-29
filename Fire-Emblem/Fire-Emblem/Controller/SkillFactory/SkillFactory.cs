@@ -272,6 +272,8 @@ namespace Fire_Emblem {
                     return new MasterMind(name, description);
                 case "Bewitching Tome":
                     return new BewitchingTome(name, description);
+                case "Quick Riposte":
+                    return new QuickRiposte(name, description);
                     
             default:
                     return new GenericSkill(name, description);

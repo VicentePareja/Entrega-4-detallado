@@ -34,6 +34,7 @@ public class Character
     public Dictionary<string, int> TemporaryFollowUpPenalties { get; private set; }
     private Dictionary<string, double> FollowUpDamageAlterations { get; set; }
     public Dictionary<string, double> DamageReduced { get; private set; }
+    public int FollowUpGarantization { get; set; }
     private double HealingEachAttackPercentage;
     private int _damageBeforeCombat;
     private int _damageAfterCombat;
@@ -469,5 +470,10 @@ public class Character
     {
         _pushActive = false;
         pushBonus = 0;
+    }
+    
+    public void CleanFollowUpSkills()
+    {
+        FollowUpGarantization = 0;
     }
 }
