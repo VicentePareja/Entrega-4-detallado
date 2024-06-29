@@ -25,7 +25,8 @@ public class CombatInterface
         PrintAbsoluteReduction(character);
         PrintHealingEachAttack(character);
         PrintCounterAttackNegations(character);
-        PrintFollowAlterations(character);
+        PrintFollowGarantizations(character);
+        PrintFollowUpNegations(character);
     }
 
     private void PrintBonuses(Character character)
@@ -295,12 +296,20 @@ public class CombatInterface
         }
     }
     
-    private void PrintFollowAlterations(Character character)
+    private void PrintFollowGarantizations(Character character)
     {
         int followUpGarantization = character.FollowUpGarantization;
         if (followUpGarantization > 0)
         {
             _view.WriteLine($"{character.Name} tiene {followUpGarantization} efecto(s) que garantiza(n) su follow up activo(s)");
+        }
+    }
+    private void PrintFollowUpNegations(Character character)
+    {
+        int followUpNegation = character.FollowUpNegation;
+        if (followUpNegation > 0)
+        {
+            _view.WriteLine($"{character.Name} tiene {followUpNegation} efecto(s) que neutraliza(n) su follow up activo(s)");
         }
     }
 }

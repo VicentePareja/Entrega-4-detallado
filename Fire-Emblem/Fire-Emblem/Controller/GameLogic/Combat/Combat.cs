@@ -168,16 +168,41 @@ namespace Fire_Emblem
         private bool IsFollowUpAttacker()
         {
             bool speedEnough = _attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5;
-            bool garantiedFollowUp = _attacker.FollowUpGarantization >= 1;
-            return speedEnough || garantiedFollowUp;
+            int netGarantiedFollowUp = _attacker.FollowUpGarantization - _attacker.FollowUpNegation;
+            if (netGarantiedFollowUp == 0)
+            {
+                return speedEnough;
+            }
+            else if(netGarantiedFollowUp > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool IsFollowUpDefender()
         {
+            if(!_defender.CanCounterAttack())
+            {
+                return false;
+            }
             bool speedEnough = _defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5;
-            bool canCounter = _defender.CanCounterAttack();
-            bool garantiedFollowUp = _defender.FollowUpGarantization >= 1;
-            return (speedEnough || garantiedFollowUp) && canCounter;
+            int netGarantiedFollowUp = _defender.FollowUpGarantization - _defender.FollowUpNegation;
+            if (netGarantiedFollowUp == 0)
+            {
+                return speedEnough;
+            }
+            else if(netGarantiedFollowUp > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void PerformNoFollowUp()

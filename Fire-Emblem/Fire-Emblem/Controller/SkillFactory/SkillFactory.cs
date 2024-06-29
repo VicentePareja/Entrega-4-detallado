@@ -276,6 +276,8 @@ namespace Fire_Emblem {
                     return new QuickRiposte(name, description);
                 case "Follow-Up Ring":
                     return new FollowUpRing(name, description);
+                case "Wary Fighter":
+                    return new WaryFighter(name, description);
                     
             default:
                     return new GenericSkill(name, description);
