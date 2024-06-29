@@ -302,6 +302,8 @@ namespace Fire_Emblem {
                     return new SwiftImpact(name, description);
                 case "Steady Impact":
                     return new SteadyImpact(name, description);
+                case "Slick Fighter":
+                    return new SlickFighter(name, description);
                     
             default:
                     return new GenericSkill(name, description);
