@@ -1,11 +1,11 @@
 namespace Fire_Emblem;
 
-public class WilyFighter : Skill
+public class SavvyFighter : Skill
 {
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
-    public WilyFighter(string name, string description) : base(name, description)
+    public SavvyFighter(string name, string description) : base(name, description)
     {
     }
     
@@ -27,12 +27,21 @@ public class WilyFighter : Skill
     
     private bool IsEligibleForEffect()
     {
-        return _owner.CurrentHP >= _owner.MaxHP * 0.25 && _owner == _combat._defender;
+        return _owner == _combat._defender;
     }
     
     private void DoEffect()
     {
-        _opponent.DisableAllBonuses();
-        _owner.FollowUpGarantization += 1;
+        _opponent.NegationOfFollowUpGarantization = 1;
+        _owner.NegationOfNegationOfFollowUp = 1;
+        if (IsEligibleForSecondEffect())
+        {
+            _owner.AddFirstAttackDamageAlteration("PercentageReduction", 30);
+        }
+    }
+    
+    private bool IsEligibleForSecondEffect()
+    {
+        return _owner.GetEffectiveAttribute("Spd") >= _opponent.GetEffectiveAttribute("Spd") - 5;
     }
 }
