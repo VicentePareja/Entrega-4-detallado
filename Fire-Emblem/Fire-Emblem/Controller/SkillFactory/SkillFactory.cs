@@ -304,7 +304,8 @@ namespace Fire_Emblem {
                     return new SteadyImpact(name, description);
                 case "Slick Fighter":
                     return new SlickFighter(name, description);
-                    
+                case "Wily Fighter":
+                    return new WilyFighter(name, description);
             default:
                     return new GenericSkill(name, description);
             }
