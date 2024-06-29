@@ -27,6 +27,8 @@ public class CombatInterface
         PrintCounterAttackNegations(character);
         PrintFollowGarantizations(character);
         PrintFollowUpNegations(character);
+        PrintNegationOfFollowUpGarantization(character);
+        PrintNegationOfFollowUpNegation(character);
     }
 
     private void PrintBonuses(Character character)
@@ -310,6 +312,22 @@ public class CombatInterface
         if (followUpNegation > 0)
         {
             _view.WriteLine($"{character.Name} tiene {followUpNegation} efecto(s) que neutraliza(n) su follow up activo(s)");
+        }
+    }
+    
+    private void PrintNegationOfFollowUpGarantization(Character character)
+    {
+        if (character.NegationOfFollowUpGarantization == 1)
+        {
+            _view.WriteLine($"{character.Name} es inmune a los efectos que garantizan su follow up");
+        }
+    }
+    
+    private void PrintNegationOfFollowUpNegation(Character character)
+    {
+        if (character.NegationOfNegationOfFollowUp == 1)
+        {
+            _view.WriteLine($"{character.Name} es inmune a los efectos que neutralizan su follow up");
         }
     }
 }

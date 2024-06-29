@@ -36,6 +36,8 @@ public class Character
     public Dictionary<string, double> DamageReduced { get; private set; }
     public int FollowUpGarantization { get; set; }
     public int FollowUpNegation { get; set; }
+    public int NegationOfFollowUpGarantization { get; set; }
+    public int NegationOfNegationOfFollowUp { get; set; }
     private double HealingEachAttackPercentage;
     private int _damageBeforeCombat;
     private int _damageAfterCombat;
@@ -477,5 +479,7 @@ public class Character
     {
         FollowUpGarantization = 0;
         FollowUpNegation = 0;
+        NegationOfFollowUpGarantization = 0;
+        NegationOfNegationOfFollowUp = 0;
     }
 }

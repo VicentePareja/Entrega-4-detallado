@@ -168,7 +168,7 @@ namespace Fire_Emblem
         private bool IsFollowUpAttacker()
         {
             bool speedEnough = _attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5;
-            int netGarantiedFollowUp = _attacker.FollowUpGarantization - _attacker.FollowUpNegation;
+            int netGarantiedFollowUp = _attacker.FollowUpGarantization * (1 -_attacker.NegationOfFollowUpGarantization)- _attacker.FollowUpNegation * (1 - _attacker.NegationOfNegationOfFollowUp);
             if (netGarantiedFollowUp == 0)
             {
                 return speedEnough;
@@ -190,7 +190,7 @@ namespace Fire_Emblem
                 return false;
             }
             bool speedEnough = _defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5;
-            int netGarantiedFollowUp = _defender.FollowUpGarantization - _defender.FollowUpNegation;
+            int netGarantiedFollowUp = _defender.FollowUpGarantization * (1 -_defender.NegationOfFollowUpGarantization ) - _defender.FollowUpNegation * (1 - _defender.NegationOfNegationOfFollowUp);
             if (netGarantiedFollowUp == 0)
             {
                 return speedEnough;

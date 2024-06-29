@@ -278,6 +278,10 @@ namespace Fire_Emblem {
                     return new FollowUpRing(name, description);
                 case "Wary Fighter":
                     return new WaryFighter(name, description);
+                case "Piercing Tribute":
+                    return new PiercingTribute(name, description);
+                case "Mjölnir": 
+                    return new Mjölnir(name, description);
                     
             default:
                     return new GenericSkill(name, description);
