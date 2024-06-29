@@ -282,6 +282,10 @@ namespace Fire_Emblem {
                     return new PiercingTribute(name, description);
                 case "Mjölnir": 
                     return new Mjölnir(name, description);
+                case "Brash Assault":
+                    return new BrashAssault(name, description);
+                case "Melee Breaker":
+                    return new MeleeBreaker(name, description);
                     
             default:
                     return new GenericSkill(name, description);

@@ -168,7 +168,11 @@ namespace Fire_Emblem
         private bool IsFollowUpAttacker()
         {
             bool speedEnough = _attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5;
-            int netGarantiedFollowUp = _attacker.FollowUpGarantization * (1 -_attacker.NegationOfFollowUpGarantization)- _attacker.FollowUpNegation * (1 - _attacker.NegationOfNegationOfFollowUp);
+            int negationOfGaratization = (1 - _attacker.NegationOfFollowUpGarantization);
+            int negationOfNegation = (1 - _attacker.NegationOfNegationOfFollowUp);
+            int garatization = _attacker.FollowUpGarantization;
+            int negation = _attacker.FollowUpNegation;
+            int netGarantiedFollowUp = garatization * negationOfGaratization - negation * negationOfNegation;
             if (netGarantiedFollowUp == 0)
             {
                 return speedEnough;
@@ -190,7 +194,11 @@ namespace Fire_Emblem
                 return false;
             }
             bool speedEnough = _defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5;
-            int netGarantiedFollowUp = _defender.FollowUpGarantization * (1 -_defender.NegationOfFollowUpGarantization ) - _defender.FollowUpNegation * (1 - _defender.NegationOfNegationOfFollowUp);
+            int negationOfGaratization = (1 - _defender.NegationOfFollowUpGarantization);
+            int negationOfNegation = (1 - _defender.NegationOfNegationOfFollowUp);
+            int garatization = _defender.FollowUpGarantization;
+            int negation = _defender.FollowUpNegation;
+            int netGarantiedFollowUp = garatization * negationOfGaratization - negation * negationOfNegation;
             if (netGarantiedFollowUp == 0)
             {
                 return speedEnough;

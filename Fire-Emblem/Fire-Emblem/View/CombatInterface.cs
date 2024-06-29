@@ -13,50 +13,29 @@ public class CombatInterface
     public void PrintSkills(Character character)
     {
         PrintBonuses(character);
-        PrintFirstAttackBonuses(character);
-        PrintFollowUpBonuses(character);
         PrintPenalties(character);
-        PrintFirstAttackPenalties(character);
-        PrintFollowUpPenalties(character);
         PrintBonusNegations(character);
         PrintPenaltyNegations(character);
-        PrintExtraDamage(character);
-        PrintOpponentPercentageReduction(character);
-        PrintAbsoluteReduction(character);
+        PrintDamageAlterations(character);
         PrintHealingEachAttack(character);
         PrintCounterAttackNegations(character);
-        PrintFollowGarantizations(character);
-        PrintFollowUpNegations(character);
-        PrintNegationOfFollowUpGarantization(character);
-        PrintNegationOfFollowUpNegation(character);
+        PrintFollowUpAlteratios(character);
     }
 
     private void PrintBonuses(Character character)
     {
-        string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
-        foreach (var stat in statsOrder)
-        {
-            int bonus = character.TemporaryBonuses.ContainsKey(stat) ? character.TemporaryBonuses[stat] : 0;
-            if (bonus != 0)
-            {
-                _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0}");
-            }
-        }
+        PrintTemporaryBonuses(character);
+        PrintFirstAttackBonuses(character);
+        PrintFollowUpBonuses(character);
     }
-
+    
     private void PrintPenalties(Character character)
     {
-        string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
-        foreach (var stat in statsOrder)
-        {
-            int penalty = character.TemporaryPenalties.ContainsKey(stat) ? character.TemporaryPenalties[stat] : 0;
-            if (penalty != 0)
-            {
-                _view.WriteLine($"{character.Name} obtiene {stat}{penalty:+#;-#;+0}");
-            }
-        }
+        PrintTemporaryPenalties(character);
+        PrintFirstAttackPenalties(character);
+        PrintFollowUpPenalties(character);
     }
-
+    
     private void PrintBonusNegations(Character character)
     {
         string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
@@ -76,7 +55,7 @@ public class CombatInterface
             }
         }
     }
-
+    
     private void PrintPenaltyNegations(Character character)
     {
         string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
@@ -96,6 +75,74 @@ public class CombatInterface
             }
         }
     }
+    
+    private void PrintDamageAlterations(Character character)
+    {
+        PrintExtraDamage(character);
+        PrintOpponentPercentageReduction(character);
+        PrintAbsoluteReduction(character);
+    }
+    
+    private void PrintHealingEachAttack(Character character)
+    {
+        double healing = character.GetHealingEachAttackPercentage();
+        if (healing > 0)
+        {
+            _view.WriteLine($"{character.Name} recuperará HP igual al {healing}% del daño realizado en cada ataque");
+        }
+    }
+    
+    private void PrintCounterAttackNegations(Character character)
+    {
+        bool isCounterAttackNegated = character.IsCounterAttackNegated() && !character.IsAttacking();
+        if (isCounterAttackNegated)
+        {
+            
+            if (character.GetNegationOfCounterAttackNegation())
+            {
+                _view.WriteLine($"{character.Name} neutraliza los efectos que previenen sus contraataques");
+            }
+            else
+            {
+                _view.WriteLine($"{character.Name} no podrá contraatacar");
+            }
+        }
+    }
+
+    private void PrintFollowUpAlteratios(Character character)
+    {
+        PrintFollowGarantizations(character);
+        PrintFollowUpNegations(character);
+        PrintNegationOfFollowUpGarantization(character);
+        PrintNegationOfFollowUpNegation(character);
+    }
+    
+    private void PrintTemporaryBonuses(Character character)
+    {
+        string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+        foreach (var stat in statsOrder)
+        {
+            int bonus = character.TemporaryBonuses.ContainsKey(stat) ? character.TemporaryBonuses[stat] : 0;
+            if (bonus != 0)
+            {
+                _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0}");
+            }
+        }
+    }
+
+    private void PrintTemporaryPenalties(Character character)
+    {
+        string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+        foreach (var stat in statsOrder)
+        {
+            int penalty = character.TemporaryPenalties.ContainsKey(stat) ? character.TemporaryPenalties[stat] : 0;
+            if (penalty != 0)
+            {
+                _view.WriteLine($"{character.Name} obtiene {stat}{penalty:+#;-#;+0}");
+            }
+        }
+    }
+    
 
     private void PrintFirstAttackBonuses(Character character)
     {
@@ -213,31 +260,6 @@ public class CombatInterface
         }
     }
     
-    private void PrintCounterAttackNegations(Character character)
-    {
-        bool isCounterAttackNegated = character.IsCounterAttackNegated() && !character.IsAttacking();
-        if (isCounterAttackNegated)
-        {
-            
-            if (character.GetNegationOfCounterAttackNegation())
-            {
-                _view.WriteLine($"{character.Name} neutraliza los efectos que previenen sus contraataques");
-            }
-            else
-            {
-                _view.WriteLine($"{character.Name} no podrá contraatacar");
-            }
-        }
-    }
-
-    public void PrintHealingEachAttack(Character character)
-    {
-        double healing = character.GetHealingEachAttackPercentage();
-        if (healing > 0)
-        {
-            _view.WriteLine($"{character.Name} recuperará HP igual al {healing}% del daño realizado en cada ataque");
-        }
-    }
     
     public void PrintHealing(Character character, int healing)
     {
