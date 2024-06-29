@@ -274,6 +274,8 @@ namespace Fire_Emblem {
                     return new BewitchingTome(name, description);
                 case "Quick Riposte":
                     return new QuickRiposte(name, description);
+                case "Follow-Up Ring":
+                    return new FollowUpRing(name, description);
                     
             default:
                     return new GenericSkill(name, description);
