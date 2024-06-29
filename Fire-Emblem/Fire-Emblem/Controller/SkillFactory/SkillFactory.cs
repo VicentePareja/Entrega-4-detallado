@@ -290,6 +290,8 @@ namespace Fire_Emblem {
                     return new RangeBreaker(name, description);
                 case "Pegasus Flight":
                     return new PegasusFlight(name, description);
+                case "Wyvern Flight":
+                    return new WyvernFlight(name, description);
                     
             default:
                     return new GenericSkill(name, description);

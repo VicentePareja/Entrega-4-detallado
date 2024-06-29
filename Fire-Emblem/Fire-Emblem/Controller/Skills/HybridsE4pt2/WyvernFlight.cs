@@ -1,12 +1,12 @@
 namespace Fire_Emblem;
 
-public class PegasusFlight : Skill
+public class WyvernFlight : Skill
 {
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
     
-    public PegasusFlight(string name, string description) : base(name, description)
+    public WyvernFlight(string name, string description) : base(name, description)
     {
     }
     
@@ -36,18 +36,19 @@ public class PegasusFlight : Skill
     
     private void DoEffect()
     {
-        double penalty = CalculatePenalty();
-        _opponent.AddTemporaryPenalty("Atk", - (int)penalty);
-        _opponent.AddTemporaryPenalty("Def", - (int)penalty);
+        int atkDefPenalty = CalculatePenalty();
+        _opponent.AddTemporaryPenalty("Atk", - atkDefPenalty);
+        _opponent.AddTemporaryPenalty("Def", - atkDefPenalty);
+        
         if (IsEligibleForSeccondEffect())
         {
             _opponent.FollowUpNegation += 1;
         }
     }
     
-    private double CalculatePenalty()
+    private int CalculatePenalty()
     {
-        double penalty = (_owner.Res - _opponent.Res) * 0.8;
+        double penalty = (_owner.Def - _opponent.Def) * 0.8;
         if (penalty >= 0)
         {
             penalty = Math.Min(penalty, 8);
@@ -57,13 +58,13 @@ public class PegasusFlight : Skill
             penalty = 0;
         }
         
-        return penalty;
+        return (int)penalty;
     }
     
     private bool IsEligibleForSeccondEffect()
     {
-        int spdResOwner = _owner.GetEffectiveAttribute("Spd") + _owner.GetEffectiveAttribute("Res");
-        int spdResOpponent = _opponent.GetEffectiveAttribute("Spd") + _opponent.GetEffectiveAttribute("Res");
-        return spdResOwner > spdResOpponent;
+        int spdDefOwner = _owner.GetEffectiveAttribute("Spd") + _owner.GetEffectiveAttribute("Def");
+        int spdDefOpponent = _opponent.GetEffectiveAttribute("Spd") + _opponent.GetEffectiveAttribute("Def");
+        return spdDefOwner > spdDefOpponent;
     }
 }
