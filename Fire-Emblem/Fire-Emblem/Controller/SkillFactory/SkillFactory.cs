@@ -294,6 +294,8 @@ namespace Fire_Emblem {
                     return new WyvernFlight(name, description);
                 case "Null Follow-Up":
                     return new NullFollowUp(name, description);
+                case "Sturdy Impact":
+                    return new SturdyImpact(name, description);
                     
             default:
                     return new GenericSkill(name, description);
