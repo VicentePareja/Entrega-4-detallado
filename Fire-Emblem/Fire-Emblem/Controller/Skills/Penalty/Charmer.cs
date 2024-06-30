@@ -11,8 +11,7 @@ namespace Fire_Emblem {
             Character currentOpponent = GetCurrentOpponent(battle, owner);
             
             if (currentOpponent == lastOpponent) {
-                currentOpponent.AddTemporaryPenalty("Atk", Penalty);
-                currentOpponent.AddTemporaryPenalty("Spd", Penalty);
+                ApplyPenalty(currentOpponent);
             }
         }
 
@@ -36,6 +35,11 @@ namespace Fire_Emblem {
                 return battle.CurrentCombat._attacker;
             }
             return null;
+        }
+        
+        private void ApplyPenalty(Character opponent) {
+            opponent.AddTemporaryPenalty("Atk", Penalty);
+            opponent.AddTemporaryPenalty("Spd", Penalty);
         }
     }
 }

@@ -1,20 +1,29 @@
-namespace Fire_Emblem.NegateBonus{
-    public class BeorcsBlessing : Skill {
+namespace Fire_Emblem.NegateBonus
+{
+    public class BeorcsBlessing : Skill
+    {
 
-        public BeorcsBlessing(string name, string description) : base(name, description) {
+        public BeorcsBlessing(string name, string description) : base(name, description)
+        {
         }
 
-        public override void ApplyEffect(Battle battle, Character owner) {
-            Combat combat = battle.CurrentCombat;
-            Character opponent;
-            if (owner == combat._attacker) {
-                opponent = combat._defender;
-            }else {
-                opponent = combat._attacker;
-            }
-
+        public override void ApplyEffect(Battle battle, Character owner)
+        {
+            Character opponent = GetOpponent(owner, battle);
             opponent.DisableAllBonuses();
+        }
 
+        private Character GetOpponent(Character owner, Battle battle)
+        {
+            Combat combat = battle.CurrentCombat;
+            if (owner == combat._attacker)
+            {
+                return combat._defender;
+            }
+            else
+            {
+                return combat._attacker;
+            }
         }
     }
 }

@@ -8,19 +8,22 @@ namespace Fire_Emblem {
 
         public override void ApplyEffect(Battle battle, Character owner) {
             Combat combat = battle.CurrentCombat;
-
             Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
 
             if (IsEffectApplied(battle, owner)) {
-                opponent.AddTemporaryPenalty("Atk", Penalty);
-                opponent.AddTemporaryPenalty("Def", Penalty);
+                ApplyPenalty(opponent);
             }
         }
-        public bool IsEffectApplied(Battle battle, Character owner) {
+        private bool IsEffectApplied(Battle battle, Character owner) {
             
             Combat combat = battle.CurrentCombat;
             Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
             return combat._attacker != owner || opponent.CurrentHP == opponent.MaxHP;
+        }
+        
+        private void ApplyPenalty(Character opponent) {
+            opponent.AddTemporaryPenalty("Atk", Penalty);
+            opponent.AddTemporaryPenalty("Def", Penalty);
         }
     }
 }
