@@ -7,6 +7,7 @@ public class TrueDragonWall : Skill
     private Combat _combat;
     private List<Character> _allies;
     private Player _ownerPlayer;
+    private int _damageAfterCombat = -7;
 
     public TrueDragonWall(string name, string description) : base(name, description)
     {
@@ -23,7 +24,7 @@ public class TrueDragonWall : Skill
 
         if (AllieUseMagic())
         {
-            _owner.AddDamageAfterCombat(-7);
+            _owner.AddDamageAfterCombat(_damageAfterCombat);
         }
     }
 
@@ -42,6 +43,34 @@ public class TrueDragonWall : Skill
 
         GetPlayerOwner(battle);
         GetAliveAllies();
+    }
+    
+    private void AddFirstAttackDamageAlteration()
+    {
+        int resDiference = _owner.Res - _opponent.Res;
+        int damageAlteration = Math.Min((int)(resDiference * 6), 60);
+        _owner.AddFirstAttackDamageAlteration("PercentageReduction", damageAlteration);
+    }
+    
+    private void AddFollowUpAttackDamageAlteration()
+    {
+        
+        int resDiference = _owner.Res - _opponent.Res;
+        int damageAlteration = Math.Min((int)(resDiference * 4), 40);
+        _owner.AddFollowUpDamageAlteration("PercentageReduction", damageAlteration);
+
+    }
+    
+    private bool AllieUseMagic()
+    {
+        foreach (var allie in _allies)
+        {
+            if (allie.GetWeaponType() == "Magic")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void GetPlayerOwner(Battle battle)
@@ -70,32 +99,4 @@ public class TrueDragonWall : Skill
             }
         }
     }
-
-    private void AddFirstAttackDamageAlteration()
-    {
-        int resDiference = _owner.Res - _opponent.Res;
-        int damageAlteration = Math.Min((int)(resDiference * 6), 60);
-        _owner.AddFirstAttackDamageAlteration("PercentageReduction", damageAlteration);
     }
-    
-    private void AddFollowUpAttackDamageAlteration()
-    {
-        
-        int resDiference = _owner.Res - _opponent.Res;
-        int damageAlteration = Math.Min((int)(resDiference * 4), 40);
-        _owner.AddFollowUpDamageAlteration("PercentageReduction", damageAlteration);
-
-    }
-    
-    private bool AllieUseMagic()
-    {
-        foreach (var allie in _allies)
-        {
-            if (allie.GetWeaponType() == "Magic")
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-}

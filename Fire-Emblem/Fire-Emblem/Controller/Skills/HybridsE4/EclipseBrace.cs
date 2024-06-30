@@ -13,7 +13,6 @@ public class EclipseBrace : Skill
         _healing = 50;
         _defPonderator = 0.3;
     }
-
     public override void ApplyEffect(Battle battle, Character owner)
     {
         SetAttributes(battle, owner);
@@ -38,7 +37,6 @@ public class EclipseBrace : Skill
         }
         _isAttacker = _owner == _combat._attacker;
     }
-    
     private void DoEffect()
     {
         double extraDamage = _defPonderator * _opponent.GetEffectiveAttribute("Def");

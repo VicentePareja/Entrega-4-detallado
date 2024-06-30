@@ -5,6 +5,8 @@ public class MysticBoost : Skill
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
+    private int _damageAfterCombat = -10;
+    private int _penalty = -5;
     public MysticBoost(string name, string description) : base(name, description)
     {
     }
@@ -12,8 +14,8 @@ public class MysticBoost : Skill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         SetAttributes(battle, owner);
-        _opponent.AddTemporaryPenalty("Atk", -5);
-        owner.AddDamageAfterCombat(-10);
+        _opponent.AddTemporaryPenalty("Atk", _penalty);
+        owner.AddDamageAfterCombat(_damageAfterCombat);
     }
     
     

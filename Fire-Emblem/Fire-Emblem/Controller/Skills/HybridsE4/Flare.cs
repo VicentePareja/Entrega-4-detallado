@@ -6,8 +6,12 @@ public class Flare : Skill
 {
     private Character _opponent;
     private Combat _combat;
+    private int _healing;
+    private double _resPonderator;
     public Flare (string name, string description) : base(name, description)
     {
+        _healing = 50;
+        _resPonderator = 0.2;
     }
 
     public override void ApplyEffect(Battle battle, Character owner)
@@ -15,8 +19,8 @@ public class Flare : Skill
         SetAttributes(battle, owner);
         if (owner.GetWeaponType() == "Magic")
         {
-            owner.AddHealingEachAttackPercentage(50);
-            int penalty = (int)(0.2 * _opponent.Res);
+            owner.AddHealingEachAttackPercentage(_healing);
+            int penalty = (int)(_resPonderator * _opponent.Res);
             _opponent.AddTemporaryPenalty("Res", -penalty);
         }
     }

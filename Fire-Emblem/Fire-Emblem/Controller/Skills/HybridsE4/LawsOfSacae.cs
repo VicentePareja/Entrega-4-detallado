@@ -18,7 +18,7 @@ public class LawsOfSacae : Skill
         {
             GetBonuses();
         }
-        if (SecondBonus())
+        if (IsSecondBonus())
         {
             _opponent.DisableCounterAttack();
         }
@@ -48,7 +48,7 @@ public class LawsOfSacae : Skill
         _owner.AddTemporaryBonus("Res", bonus);
     }
 
-    private bool SecondBonus()
+    private bool IsSecondBonus()
     {
         string weapon = _opponent.Weapon;
         bool isWeapon = weapon == "Sword" || weapon == "Lance" || weapon == "Axe";
