@@ -1,27 +1,42 @@
 namespace Fire_Emblem {
     public class Dragonskin : Skill {
+        
+        private double _hpThreshold = 0.75;
+        private Combat _combat;
+        private Character _owner;
+        private Character _opponent;
+        private int _bonus = 6;
         public Dragonskin(string name, string description) : base(name, description) {
         }
 
         public override void ApplyEffect(Battle battle, Character owner) {
-            Combat combat = battle.CurrentCombat;
-            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
             
-            if (IsEffectApllied(combat, opponent)) {
+            SetAttributes(battle, owner);
+            if (IsEffectApllied()) {
                 
-                AddBonuses(owner);
-                opponent.DisableAllBonuses();
+                AddBonuses();
+                _opponent.DisableAllBonuses();
             }
         }
-        public bool IsEffectApllied(Combat combat, Character opponent) {
-            return opponent == combat._attacker || opponent.CurrentHP >= 0.75 * opponent.MaxHP;
+        
+        private void SetAttributes(Battle battle, Character owner) {
+            _combat = battle.CurrentCombat;
+            _owner = owner;
+            if (_owner == _combat._attacker) {
+                _opponent = _combat._defender;
+            }else {
+                _opponent = _combat._attacker;
+            }
+        }
+        public bool IsEffectApllied() {
+            return _opponent == _combat._attacker || _opponent.CurrentHP >= _hpThreshold * _opponent.MaxHP;
         }
         
-        public void AddBonuses(Character owner) {
-            owner.AddTemporaryBonus("Atk", 6);
-            owner.AddTemporaryBonus("Spd", 6);
-            owner.AddTemporaryBonus("Def", 6);
-            owner.AddTemporaryBonus("Res", 6);
+        public void AddBonuses() {
+            _owner.AddTemporaryBonus("Atk", _bonus);
+            _owner.AddTemporaryBonus("Spd", _bonus);
+            _owner.AddTemporaryBonus("Def", _bonus);
+            _owner.AddTemporaryBonus("Res", _bonus);
         }
     }
 }
