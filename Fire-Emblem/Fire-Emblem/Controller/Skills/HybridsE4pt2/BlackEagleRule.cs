@@ -19,9 +19,9 @@ public class BlackEagleRule : Skill
         if(IsEligibleForEffect())
         {
             DoEffect();
-            if (IsEligibleForSecondEffect())
+            if (IsEligibleForDamageAlteration())
             {
-                DoSecondEffect();
+                DoDamageAlteration();
             }
         }
         
@@ -45,12 +45,12 @@ public class BlackEagleRule : Skill
         
     }
     
-    private bool IsEligibleForSecondEffect()
+    private bool IsEligibleForDamageAlteration()
     {
         return _owner == _combat._defender;
     }
     
-    private void DoSecondEffect()
+    private void DoDamageAlteration()
     {
         _owner.AddFollowUpDamageAlteration("PercentageReduction", _percentageReduction);
     }

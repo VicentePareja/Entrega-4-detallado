@@ -23,7 +23,7 @@ public class BrashAssault : Skill
         SetAttributes(battle, owner);
         if(IsEligibleForEffect())
         {
-            AddEffect();
+            DoEffect();
         }
     }
     
@@ -42,7 +42,7 @@ public class BrashAssault : Skill
         return firstOption || secondOption;
     }
     
-    private void AddEffect()
+    private void DoEffect()
     {
         _opponent.AddTemporaryPenalty("Def", -4);
         _opponent.AddTemporaryPenalty("Res", -4);

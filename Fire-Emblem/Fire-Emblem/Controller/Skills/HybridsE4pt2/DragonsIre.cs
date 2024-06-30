@@ -18,9 +18,9 @@ public class DragonsIre : Skill
         if(IsEligibleForEffect())
         {
             DoEffect();
-            if (IsEligibleForSecondEffect())
+            if (IsOwnerDefender())
             {
-                DoSecondEffect();
+                NeutralizeFollowUpNegation();
             }
         }
         
@@ -45,12 +45,12 @@ public class DragonsIre : Skill
         _owner.FollowUpGarantization += 1;
     }
     
-    private bool IsEligibleForSecondEffect()
+    private bool IsOwnerDefender()
     {
         return _owner == _combat._defender;
     }
     
-    private void DoSecondEffect()
+    private void NeutralizeFollowUpNegation()
     {
         _owner.NegationOfNegationOfFollowUp = 1;
     }

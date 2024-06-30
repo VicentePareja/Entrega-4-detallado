@@ -16,9 +16,9 @@ public class BindingShield : Skill
         if(IsEligibleForEffect())
         {
             DoEffect();
-            if (IsEligibleForSecondEffect())
+            if (IsEligibleForDisableCounterAttack())
             {
-                DoSecondEffect();
+                DisableCounterAttack();
             }
         }
         
@@ -42,12 +42,12 @@ public class BindingShield : Skill
         _opponent.FollowUpNegation += 1;
     }
     
-    private bool IsEligibleForSecondEffect()
+    private bool IsEligibleForDisableCounterAttack()
     {
         return _owner == _combat._attacker;
     }
     
-    private void DoSecondEffect()
+    private void DisableCounterAttack()
     {
         _opponent.DisableCounterAttack();
     }

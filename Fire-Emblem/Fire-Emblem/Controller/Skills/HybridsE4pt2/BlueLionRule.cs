@@ -19,9 +19,9 @@ public class BlueLionRule : Skill
             DoEffect();
         }
 
-        if (IsEligibleForSecondEffect())
+        if (IsOwnerDefender())
         {
-            DoSecondEffect();
+            GuaranteeFollowUp();
         }
     }
     
@@ -44,12 +44,12 @@ public class BlueLionRule : Skill
         _owner.AddTemporaryDamageAlteration("PercentageReduction", (int)_damageAlteration);
     }
     
-    private bool IsEligibleForSecondEffect()
+    private bool IsOwnerDefender()
     {
         return _owner == _combat._defender;
     }
     
-    private void DoSecondEffect()
+    private void GuaranteeFollowUp()
     {
         _owner.FollowUpGarantization += 1;
     }
