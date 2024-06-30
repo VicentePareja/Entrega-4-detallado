@@ -1,10 +1,7 @@
 namespace Fire_Emblem {
     public class DivineRecreation : DamageAlterationSkill
     {
-        public DivineRecreation(string name, string description) : base(name, description)
-        {
-        }
-
+        
         private double _nextAttackExtraDamage = 0;
         private double _baseDamage;
         private double _reduction;
@@ -18,47 +15,67 @@ namespace Fire_Emblem {
         private Character _attacker;
         private Character _defender;
         private Character _opponent;
+        private Character _owner;
+        private Combat _combat;
+        private int _penalty = -4;
+        private double _healthThreshold = 0.5;
+        public DivineRecreation(string name, string description) : base(name, description)
+        {
+        }
 
         public override void ApplyEffect(Battle battle, Character owner)
         {
-            SetVariables(battle, owner);
-            _counterTimes++;
-
-            if (_opponent.CurrentHP >= _opponent.MaxHP * 0.5)
+            SetAttributes(battle, owner);
+            
+            if (IsStatPenalties())
             {
-                if (_counterTimes % 2 == 1)
-                {
-                    ApplyStatPenalties(_opponent);
-                }
-
-                if (_counterTimes % 2 == 0)
-                {
-                    SetAttackOrder();
-                    double withOutReductionDamage = CalculateDamageOpponentWithOutReduction();
-                    owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", _firstAttackDamageReduction);
-                    double reducedDamage = CalculateDamageOpponentWithReduction();
-                    double damageDifference = withOutReductionDamage - reducedDamage;
-                    SetExtraDamage(owner, damageDifference);
-                }
+                ApplyStatPenalties();
+            }
+            
+            if (IsDamageAlteration())
+            {
+                ApplyDamageAlterations();
             }
         }
         
-        private void SetVariables(Battle battle, Character owner)
+        private void SetAttributes(Battle battle, Character owner)
         {
-            Combat combat = battle.CurrentCombat;
-            _advantage = combat._advantage;
-            _attacker = combat._attacker;
-            _defender = combat._defender;
-            _opponent = DetermineOpponent(combat, owner);
+            _counterTimes++;
+            _owner = owner;
+            _combat = battle.CurrentCombat;
+            _advantage = _combat._advantage;
+            _attacker = _combat._attacker;
+            _defender = _combat._defender;
+            _opponent = DetermineOpponent();
             _isOwnerAttacker = _attacker == owner;
         }
         
-        private void ApplyStatPenalties(Character opponent)
+        private bool IsStatPenalties()
         {
-            opponent.AddTemporaryPenalty("Atk", -4);
-            opponent.AddTemporaryPenalty("Spd", -4);
-            opponent.AddTemporaryPenalty("Def", -4);
-            opponent.AddTemporaryPenalty("Res", -4);
+            return _opponent.CurrentHP >= _opponent.MaxHP * _healthThreshold && _counterTimes % 2 == 1;
+        }
+        
+        private void ApplyStatPenalties()
+        {
+            _opponent.AddTemporaryPenalty("Atk", _penalty);
+            _opponent.AddTemporaryPenalty("Spd", _penalty);
+            _opponent.AddTemporaryPenalty("Def", _penalty);
+            _opponent.AddTemporaryPenalty("Res", _penalty);
+        }
+        
+        private bool IsDamageAlteration()
+        {
+            return _opponent.CurrentHP >= _opponent.MaxHP * _healthThreshold && _counterTimes % 2 == 0;
+        }
+        
+        private void ApplyDamageAlterations()
+        {
+            SetAttackOrder();
+            double withOutReductionDamage = CalculateDamageOpponentWithOutReduction();
+            _owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", _firstAttackDamageReduction);
+            double reducedDamage = CalculateDamageOpponentWithReduction();
+            double damageDifference = withOutReductionDamage - reducedDamage;
+            SetExtraDamage(damageDifference);
         }
         
         private void SetAttackOrder()
@@ -100,35 +117,38 @@ namespace Fire_Emblem {
             }
         }
 
-        private void SetExtraDamage(Character owner, double damageDifference)
+        private void SetExtraDamage(double damageDifference)
         {
             _nextAttackExtraDamage = damageDifference;
 
             if (_ownerNextAtack == "FollowUpAttacker")
             {
-                owner.AddFollowUpDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
+                _owner.AddFollowUpDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
             }
             else if (_opponentFirstAtack == "CounterAttack")
             {
-                owner.AddFirstAttackDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
+                _owner.AddFirstAttackDamageAlteration("ExtraDamage", _nextAttackExtraDamage);
             }
         }
         
-        private Character DetermineOpponent(Combat combat, Character owner)
+        private Character DetermineOpponent()
         {
-            return (combat._attacker == owner) ? combat._defender : combat._attacker;
+            return (_combat._attacker == _owner) ? _combat._defender : _combat._attacker;
         }
-
-        private int CalculateDamage()
+        
+        private int PerformCounterAttack(string advantage)
         {
-            double initialDamage = (double)_baseDamage;
-            double newDamage = initialDamage + _extraDamage;
-            double damageReduced = newDamage * (100.0 - _reduction) / 100.0;
-            damageReduced = Math.Round(damageReduced, 9);
-            return Math.Max(Convert.ToInt32(Math.Floor(damageReduced)) + Convert.ToInt32(_absoluteReduction), 0);
+            double weaponTriangleBonus = advantage == "defensor" ? 1.2 : advantage == "atacante" ? 0.8 : 1.0;
+            int defenderAtk = _defender.GetFirstAttackAttribute("Atk");
+            int attackerDef = _attacker.GetFirstAttackAttribute(_defender.Weapon == "Magic" ? "Res" : "Def");
+            _baseDamage = Math.Max((int)((defenderAtk * weaponTriangleBonus) - attackerDef), 0);
+            _reduction = _attacker.GetFirstAttackDamageAlteration("PercentageReduction");
+            _extraDamage = _defender.GetFirstAttackDamageAlteration("ExtraDamage");
+            _absoluteReduction = _attacker.GetFirstAttackDamageAlteration("AbsoluteReduction");
+            return CalculateDamage();
         }
-
-        public int PerformAttack(string advantage)
+        
+        private int PerformAttack(string advantage)
         {
             double weaponTriangleBonus = advantage == "atacante" ? 1.2 : advantage == "defensor" ? 0.8 : 1.0;
             int attackerAtk = _attacker.GetFirstAttackAttribute("Atk");
@@ -140,40 +160,13 @@ namespace Fire_Emblem {
             return CalculateDamage();
         }
 
-        public int PerformCounterAttack(string advantage)
+        private int CalculateDamage()
         {
-            double weaponTriangleBonus = advantage == "defensor" ? 1.2 : advantage == "atacante" ? 0.8 : 1.0;
-            int defenderAtk = _defender.GetFirstAttackAttribute("Atk");
-            int attackerDef = _attacker.GetFirstAttackAttribute(_defender.Weapon == "Magic" ? "Res" : "Def");
-            _baseDamage = Math.Max((int)((defenderAtk * weaponTriangleBonus) - attackerDef), 0);
-            _reduction = _attacker.GetFirstAttackDamageAlteration("PercentageReduction");
-            _extraDamage = _defender.GetFirstAttackDamageAlteration("ExtraDamage");
-            _absoluteReduction = _attacker.GetFirstAttackDamageAlteration("AbsoluteReduction");
-            return CalculateDamage();
-        }
-
-        public int PerformFollowUpAtacker(string advantage)
-        {
-            double weaponTriangleBonus = advantage == "atacante" ? 1.2 : advantage == "defensor" ? 0.8 : 1.0;
-            int attackerAtk = _attacker.GetFollowUpAttribute("Atk");
-            int defenderDef = _defender.GetFollowUpAttribute(_attacker.Weapon == "Magic" ? "Res" : "Def");
-            _baseDamage = Math.Max((int)((attackerAtk * weaponTriangleBonus) - defenderDef), 0);
-            _reduction = _defender.GetFollowUpDamageAlteration("PercentageReduction");
-            _extraDamage = _attacker.GetFollowUpDamageAlteration("ExtraDamage");
-            _absoluteReduction = _defender.GetFollowUpDamageAlteration("AbsoluteReduction");
-            return CalculateDamage();
-        }
-
-        public int PerformFollowUpDefender(string advantage)
-        {
-            double weaponTriangleBonus = advantage == "defensor" ? 1.2 : advantage == "atacante" ? 0.8 : 1.0;
-            int defenderAtk = _defender.GetFollowUpAttribute("Atk");
-            int attackerDef = _attacker.GetFollowUpAttribute(_defender.Weapon == "Magic" ? "Res" : "Def");
-            _baseDamage = Math.Max((int)((defenderAtk * weaponTriangleBonus) - attackerDef), 0);
-            _reduction = _attacker.GetFollowUpDamageAlteration("PercentageReduction");
-            _extraDamage = _defender.GetFollowUpDamageAlteration("ExtraDamage");
-            _absoluteReduction = _attacker.GetFollowUpDamageAlteration("AbsoluteReduction");
-            return CalculateDamage();
+            double initialDamage = (double)_baseDamage;
+            double newDamage = initialDamage + _extraDamage;
+            double damageReduced = newDamage * (100.0 - _reduction) / 100.0;
+            damageReduced = Math.Round(damageReduced, 9);
+            return Math.Max(Convert.ToInt32(Math.Floor(damageReduced)) + Convert.ToInt32(_absoluteReduction), 0);
         }
     }
 }

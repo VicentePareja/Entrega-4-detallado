@@ -3,36 +3,43 @@ namespace Fire_Emblem;
 public class Bushido : DamageAlterationSkill
 {
     private double _extraDamage = 7.0;
+    private Combat _combat;
+    private Character _owner;
+    private Character _opponent;
     public Bushido(string name, string description) : base(name, description)
     {
     }
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
-        Character opponent = GetOpponent(combat, owner);
-        _counterTimes++;
+        SetAtributes(battle, owner);
         
-        if (_counterTimes % 2 == 0)
+        if (IsDamageAlteration())
         {
             owner.AddTemporaryDamageAlteration("ExtraDamage", _extraDamage);
-            ApplySpeedBasedDamageReduction(owner, opponent);
+            ApplySpeedBasedDamageReduction();
         }
     }
-
-    private Character GetOpponent(Combat combat, Character owner)
+    private void SetAtributes(Battle battle, Character owner)
     {
-        return (combat._attacker == owner) ? combat._defender : combat._attacker;
+        _counterTimes++;
+        _owner = owner;
+        _combat = battle.CurrentCombat;
+        _opponent = (_combat._attacker == _owner) ? _combat._defender : _combat._attacker;
     }
-
-    private void ApplySpeedBasedDamageReduction(Character owner, Character opponent)
+    
+    private bool IsDamageAlteration()
     {
-        int speedDifference = owner.GetEffectiveAttribute("Spd") - opponent.GetEffectiveAttribute("Spd");
+        return _counterTimes % 2 == 0;
+    }
+    private void ApplySpeedBasedDamageReduction()
+    {
+        int speedDifference = _owner.GetEffectiveAttribute("Spd") - _opponent.GetEffectiveAttribute("Spd");
         if (speedDifference > 0)
         {
             int damageReductionPercentage = speedDifference * 4;
             damageReductionPercentage = Math.Min(damageReductionPercentage, 40);
-            owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
+            _owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
         }
     }
 }
