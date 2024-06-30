@@ -13,7 +13,6 @@ public class RemoteMirror : DamageAlterationSkill
 
         if (combat._attacker == owner && _counterTimes % 2 == 1)
         {
-
             owner.AddTemporaryBonus("Atk", 7);
             owner.AddTemporaryBonus("Res", 10);
         }
