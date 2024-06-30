@@ -3,7 +3,6 @@ namespace Fire_Emblem;
 public class LunarBrace : DamageAlterationSkill
 {
     private Combat _combat;
-    private Character _opponent;
     private Character _owner;
     private bool _isOwnerInitiator;
     private bool _isPhysicalAttack;
@@ -17,22 +16,19 @@ public class LunarBrace : DamageAlterationSkill
         {
             ApplyDamageEffect();
         }
-
-        
     }
     
     private void SetAttributes(Battle battle, Character owner) 
     {
         _owner = owner;
         _combat = battle.CurrentCombat;
-        _opponent = (_combat._attacker == owner) ? _combat._defender : _combat._attacker;
         _isOwnerInitiator = _combat._attacker == owner;
         _isPhysicalAttack = owner.Weapon != "Magic";
     }
     
     private void ApplyDamageEffect() 
     {
-        if (IsEffectApplicable(_isOwnerInitiator, _isPhysicalAttack))
+        if (IsEffectApplicable())
         {
             Character opponent = _combat._defender;
             double extraDamage = opponent.GetEffectiveAttribute("Def") * 0.3;
@@ -40,9 +36,9 @@ public class LunarBrace : DamageAlterationSkill
         }
     }
     
-    private bool IsEffectApplicable(bool isOwnerInitiator, bool isPhysicalAttack)
+    private bool IsEffectApplicable()
     {
-        return isOwnerInitiator && isPhysicalAttack;
+        return _isOwnerInitiator && _isPhysicalAttack;
     }
     
 }
