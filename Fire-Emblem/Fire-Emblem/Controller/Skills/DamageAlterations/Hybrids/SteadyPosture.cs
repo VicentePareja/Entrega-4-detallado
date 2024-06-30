@@ -2,24 +2,54 @@ namespace Fire_Emblem;
 
 public class SteadyPosture : DamageAlterationSkill
 {
+    private int _counterTimes = 0;
+    private int _spdBonus = 6;
+    private int _defBonus = 6;
+    private int _percentageReduction = 10;
+    private Combat _combat;
+    private Character _owner;
     public SteadyPosture(string name, string description) : base(name, description)
     {
     }
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
+        SetAttributes(battle, owner);
+        if (IsBonusApplicable())
+        {
+            ApplyBonus();
+        }
+        if (IsDamageAlteration())
+        {
+            ApplyDamageAlterations();
+        }
+    }
+    
+    private void SetAttributes(Battle battle, Character owner)
+    {
         _counterTimes++;
-        if (combat._attacker != owner && _counterTimes % 2 == 1)
-        {
-            owner.AddTemporaryBonus("Spd", 6);
-            owner.AddTemporaryBonus("Def", 6);
-        }
-
-        if (combat._attacker != owner && _counterTimes % 2 == 0)
-        {
-            owner.MultiplyFollowUpDamageAlterations("PercentageReduction", 10);
-        }
-
+        _owner = owner;
+        _combat = battle.CurrentCombat;
+    }
+    
+    private bool IsBonusApplicable()
+    {
+        return _combat._attacker != _owner && _counterTimes % 2 == 1;
+    }
+    
+    private void ApplyBonus()
+    {
+        _owner.AddTemporaryBonus("Spd", _spdBonus);
+        _owner.AddTemporaryBonus("Def", _defBonus);
+    }
+    
+    private bool IsDamageAlteration()
+    {
+        return _combat._attacker != _owner && _counterTimes % 2 == 0;
+    }
+    
+    private void ApplyDamageAlterations()
+    {
+        _owner.MultiplyFollowUpDamageAlterations("PercentageReduction", _percentageReduction);
     }
 }
