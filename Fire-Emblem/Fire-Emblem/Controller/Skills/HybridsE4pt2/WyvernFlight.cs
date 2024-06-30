@@ -5,16 +5,21 @@ public class WyvernFlight : Skill
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
+    private int _atkDefPenalty = -4;
+    private int _spdDifference;
+    private double _defPonderator = 0.8;
+    private int _maxPenalty = 8;
     
     public WyvernFlight(string name, string description) : base(name, description)
     {
+        _spdDifference = 10;
     }
     
     public override void ApplyEffect(Battle battle, Character owner)
     {
         SetAttributes(battle, owner);
-        _opponent.AddTemporaryPenalty("Atk", -4);
-        _opponent.AddTemporaryPenalty("Def", -4);
+        _opponent.AddTemporaryPenalty("Atk", _atkDefPenalty);
+        _opponent.AddTemporaryPenalty("Def", _atkDefPenalty);
         if(IsEligibleForEffect())
         {
             DoEffect();
@@ -30,7 +35,7 @@ public class WyvernFlight : Skill
     
     private bool IsEligibleForEffect()
     {
-        bool isFast = _owner.Spd >= _opponent.Spd - 10;
+        bool isFast = _owner.Spd >= _opponent.Spd - _spdDifference;
         return isFast;
     }
     
@@ -48,10 +53,10 @@ public class WyvernFlight : Skill
     
     private int CalculatePenalty()
     {
-        double penalty = (_owner.Def - _opponent.Def) * 0.8;
+        double penalty = (_owner.Def - _opponent.Def) * _defPonderator;
         if (penalty >= 0)
         {
-            penalty = Math.Min(penalty, 8);
+            penalty = Math.Min(penalty, _maxPenalty);
         }
         else
         {

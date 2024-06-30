@@ -59,7 +59,8 @@ public class NewDivinity : Skill
     
     private void ApplyDamageAlteration()
     {
-        int reduction = (_owner.GetEffectiveAttribute("Res") - _opponent.GetEffectiveAttribute("Res")) * _resPonderator;
+        int reduction = (_owner.GetEffectiveAttribute("Res") - _opponent.GetEffectiveAttribute("Res"));
+        reduction *= _resPonderator;
         reduction = Math.Min(reduction, _maxReduction);
         _owner.AddTemporaryDamageAlteration("PercentageReduction", reduction);
     }

@@ -5,6 +5,8 @@ public class SavvyFighter : Skill
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
+    private int _percentageReduction = 30;
+    private int _spdThreshold = 5;
     public SavvyFighter(string name, string description) : base(name, description)
     {
     }
@@ -36,12 +38,12 @@ public class SavvyFighter : Skill
         _owner.NegationOfNegationOfFollowUp = 1;
         if (IsEligibleForSecondEffect())
         {
-            _owner.AddFirstAttackDamageAlteration("PercentageReduction", 30);
+            _owner.AddFirstAttackDamageAlteration("PercentageReduction", _percentageReduction);
         }
     }
     
     private bool IsEligibleForSecondEffect()
     {
-        return _owner.GetEffectiveAttribute("Spd") >= _opponent.GetEffectiveAttribute("Spd") - 5;
+        return _owner.GetEffectiveAttribute("Spd") >= _opponent.GetEffectiveAttribute("Spd") - _spdThreshold;
     }
 }

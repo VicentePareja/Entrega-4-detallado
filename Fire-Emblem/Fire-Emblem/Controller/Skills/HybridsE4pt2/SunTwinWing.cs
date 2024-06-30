@@ -5,6 +5,9 @@ public class SunTwinWing : Skill
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
+    private int _spdPenalty = -5;
+    private int _defPenalty = -5;
+    private double _hpThreshold = 0.25;
     
     public SunTwinWing(string name, string description) : base(name, description)
     {
@@ -28,13 +31,13 @@ public class SunTwinWing : Skill
     
     private bool IsEligibleForEffect()
     {
-        return _owner.CurrentHP >= _owner.MaxHP * 0.25;
+        return _owner.CurrentHP >= _owner.MaxHP * _hpThreshold;
     }
     
     private void DoEffect()
     {
-        _opponent.AddTemporaryPenalty("Spd", -5);
-        _opponent.AddTemporaryPenalty("Def", -5);
+        _opponent.AddTemporaryPenalty("Spd", _spdPenalty);
+        _opponent.AddTemporaryPenalty("Def", _defPenalty);
         _opponent.NegationOfFollowUpGarantization = 1;
         _owner.NegationOfNegationOfFollowUp = 1;
     }

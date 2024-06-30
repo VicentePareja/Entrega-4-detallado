@@ -5,6 +5,7 @@ public class WilyFighter : Skill
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
+    private double _hpThreshold = 0.25;
     public WilyFighter(string name, string description) : base(name, description)
     {
     }
@@ -27,7 +28,7 @@ public class WilyFighter : Skill
     
     private bool IsEligibleForEffect()
     {
-        return _owner.CurrentHP >= _owner.MaxHP * 0.25 && _owner == _combat._defender;
+        return _owner.CurrentHP >= _owner.MaxHP * _hpThreshold && _owner == _combat._defender;
     }
     
     private void DoEffect()

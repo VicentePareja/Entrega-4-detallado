@@ -5,6 +5,7 @@ public class RangeBreaker : Skill
     private Character _owner;
     private Character _opponent;
     private Combat _combat;
+    private double _hpThreshold = 0.5;
     public RangeBreaker(string name, string description) : base(name, description)
     {
     }
@@ -27,7 +28,7 @@ public class RangeBreaker : Skill
     
     private bool IsEligibleForEffect()
     {
-        bool isHealthy = _owner.CurrentHP >= _owner.MaxHP * 0.5;
+        bool isHealthy = _owner.CurrentHP >= _owner.MaxHP * _hpThreshold;
         string weaponType = _opponent.GetWeaponType();
         bool isOpponentRange = weaponType == "Magic" || weaponType == "Bow";
         return isHealthy && isOpponentRange;
