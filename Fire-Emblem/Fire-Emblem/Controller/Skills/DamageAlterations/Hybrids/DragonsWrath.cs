@@ -1,22 +1,47 @@
 namespace Fire_Emblem {
-    public class DragonsWrath : DamageAlterationSkill {
-        public DragonsWrath(string name, string description) : base(name, description) {
+    public class DragonsWrath : DamageAlterationSkill
+    {
+
+        private Combat _combat;
+        private Character _opponent;
+        private Character _owner;
+        private readonly int _percentageReduction = 25;
+        private readonly double _extraDamagePonderator = 0.25;
+
+        public DragonsWrath(string name, string description) : base(name, description)
+        {
         }
 
-        public override void ApplyEffect(Battle battle, Character owner) {
-            Combat combat = battle.CurrentCombat;
-            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-            _counterTimes++;
+        public override void ApplyEffect(Battle battle, Character owner)
+        {
+            SetAttributes(battle, owner);
 
-            if (_counterTimes % 2 == 0)
+            if (IsDamageAlterationApplicable())
             {
-                owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", 25);
+               ApplyDamageAlterations();
+            }
+        }
 
-                if (owner.GetEffectiveAttribute("Atk") > opponent.GetEffectiveAttribute("Res"))
-                {
-                    double extraDamage = 0.25 * (owner.Atk - opponent.Res);
-                    owner.AddFirstAttackDamageAlteration("ExtraDamage", extraDamage);
-                }
+        private void SetAttributes(Battle battle, Character owner)
+        {
+            _owner = owner;
+            _combat = battle.CurrentCombat;
+            _opponent = (_combat._attacker == _owner) ? _combat._defender : _combat._attacker;
+            _counterTimes++;
+        }
+
+        private bool IsDamageAlterationApplicable()
+        {
+            return _counterTimes % 2 == 0;
+        }
+        
+        private void ApplyDamageAlterations()
+        {
+            _owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", _percentageReduction);
+            if (_owner.GetEffectiveAttribute("Atk") > _opponent.GetEffectiveAttribute("Res"))
+            {
+                double extraDamage = _extraDamagePonderator * (_owner.Atk - _opponent.Res);
+                _owner.AddFirstAttackDamageAlteration("ExtraDamage", extraDamage);
             }
         }
     }

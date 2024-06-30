@@ -1,35 +1,53 @@
 namespace Fire_Emblem {
     public class ExtraChivalry : DamageAlterationSkill {
         int _penalty;
+        private double _healthPercentage;
+        private Character _owner;
+        private Combat _combat;
+        private Character _opponent;
         public ExtraChivalry(string name, string description) : base(name, description){ 
             _penalty = -5;
+            _healthPercentage = 0.5;
         }
 
         public override void ApplyEffect(Battle battle, Character owner) {
-            Combat combat = battle.CurrentCombat;
-            Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-            _counterTimes++;
+            
+            SetAttributes(battle, owner);
 
-            if (_counterTimes % 2 == 1)
+            if (IsPenaltyApplicable())
             {
-                if (opponent.CurrentHP >= opponent.MaxHP * 0.5)
-                {
-                    AddPenalties(opponent);
-                }
+                AddPenalties();
             }
-
-            if (_counterTimes % 2 == 0)
+            if (IsDamageAlteration())
             {
-                int hpPercentage = (int)((double)opponent.CurrentHP / opponent.MaxHP * 100);
-                int damageReductionPercentage = hpPercentage / 2;
-                owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
+                ApplyDamageAlterations();
             }
         }
         
-        public void AddPenalties(Character opponent) {
-            opponent.AddTemporaryPenalty("Atk", _penalty);
-            opponent.AddTemporaryPenalty("Spd", _penalty);
-            opponent.AddTemporaryPenalty("Def", _penalty);
+        private void SetAttributes(Battle battle, Character owner) {
+            _counterTimes++;
+            _owner = owner;
+            _combat = battle.CurrentCombat;
+            _opponent = (_combat._attacker == _owner) ? _combat._defender : _combat._attacker;
+        }
+        
+        private bool IsPenaltyApplicable() {
+            return _counterTimes % 2 == 1 && _opponent.CurrentHP >= _opponent.MaxHP * _healthPercentage;
+        }
+        private void AddPenalties() {
+            _opponent.AddTemporaryPenalty("Atk", _penalty);
+            _opponent.AddTemporaryPenalty("Spd", _penalty);
+            _opponent.AddTemporaryPenalty("Def", _penalty);
+        }
+        
+        private bool IsDamageAlteration() {
+            return _counterTimes % 2 == 0;
+        }
+        
+        private void ApplyDamageAlterations() {
+            int hpPercentage = (int)((double)_opponent.CurrentHP / _opponent.MaxHP * 100);
+            int damageReductionPercentage = hpPercentage / 2;
+            _owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
         }
     }
 }
