@@ -314,6 +314,8 @@ namespace Fire_Emblem {
                     return new FlowRefresh(name, description);
                 case "Flow Feather":
                     return new FlowFeather(name, description);
+                case "Flow Flight":
+                    return new FlowFlight(name, description);
             default:
                     return new GenericSkill(name, description);
             }
