@@ -33,7 +33,6 @@ public class BrashAssault : Skill
         _combat = battle.CurrentCombat;
         _opponent = _owner == _combat._attacker ? _combat._defender : _combat._attacker;
         _weaponTriangleBonus = 1;
-
     }
     
     private bool IsEligibleForEffect()

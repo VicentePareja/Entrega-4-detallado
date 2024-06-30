@@ -5,6 +5,7 @@ public class Sympathetic : DamageAlterationSkill
     private Combat _combat;
     private bool _isInitiatorOpponent;
     private bool _isOwnerHealthLow;
+    private double _damageReduction = -5.0;
     public Sympathetic(string name, string description) : base(name, description)
     {
     }
@@ -17,8 +18,7 @@ public class Sympathetic : DamageAlterationSkill
             SetAttributes(battle, owner);
             if (_isInitiatorOpponent && _isOwnerHealthLow)
             {
-                double damageReduction = -5.0;
-                owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+                owner.AddTemporaryDamageAlteration("AbsoluteReduction", _damageReduction);
             }
         } 
     }

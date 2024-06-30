@@ -31,7 +31,7 @@ public class Bushido : DamageAlterationSkill
         if (speedDifference > 0)
         {
             int damageReductionPercentage = speedDifference * 4;
-            damageReductionPercentage = Math.Min(damageReductionPercentage, 40);  // Ensure max reduction is capped at 40%
+            damageReductionPercentage = Math.Min(damageReductionPercentage, 40);
             owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
         }
     }

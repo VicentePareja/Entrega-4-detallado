@@ -6,6 +6,7 @@ public class BowGuard: DamageAlterationSkill
     private Character _owner;
     private Character _opponent;
     private bool _isOpponentBow;
+    private double _damageReduction = -5.0;
     
     public BowGuard(string name, string description) : base(name, description)
     {
@@ -33,8 +34,7 @@ public class BowGuard: DamageAlterationSkill
     {
         if (_isOpponentBow)
         {
-            double damageReduction = -5.0;
-            _owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            _owner.AddTemporaryDamageAlteration("AbsoluteReduction", _damageReduction);
         }
     }
     

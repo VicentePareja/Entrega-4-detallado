@@ -6,6 +6,7 @@ public class AxeGuard : DamageAlterationSkill
     private Character _owner;
     private Character _opponent;
     private bool _isOpponentAxe;
+    private double _damageReduction = -5.0;
     public AxeGuard(string name, string description) : base(name, description)
     {
     }
@@ -31,8 +32,7 @@ public class AxeGuard : DamageAlterationSkill
     {
         if (_isOpponentAxe)
         {
-            double damageReduction = -5.0;
-            _owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+            _owner.AddTemporaryDamageAlteration("AbsoluteReduction", _damageReduction);
         }
        
     }

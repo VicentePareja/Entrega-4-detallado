@@ -1,9 +1,11 @@
 ﻿namespace Fire_Emblem {
     public class WaterBoost : Skill {
         private int Bonus { get; set; }
+        private int _HPDifference { get; set; }
 
         public WaterBoost(string name, string description) : base(name, description) {
             Bonus = 6;
+            _HPDifference = 3;
         }
 
         public override void ApplyEffect(Battle battle, Character owner) {
@@ -19,7 +21,7 @@
                 otherCharacter = combat._attacker;
             }
 
-            if (thisCharacter.CurrentHP >= otherCharacter.CurrentHP + 3) {
+            if (thisCharacter.CurrentHP >= otherCharacter.CurrentHP + _HPDifference) {
                 owner.AddTemporaryBonus("Res", Bonus);
             }
         }

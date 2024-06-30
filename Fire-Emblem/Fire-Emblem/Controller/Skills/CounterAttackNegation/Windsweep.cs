@@ -2,20 +2,31 @@ namespace Fire_Emblem;
 
 public class Windsweep : Skill {
     
+    private Combat _combat;
+    private Character _owner;
+    private Character _opponent;
     public Windsweep(string name, string description) : base(name, description) {
     }
-    
-    public override void ApplyEffect(Battle battle, Character owner) {
-        Combat combat = battle.CurrentCombat;
-        Character opponent;
-        if (owner == combat._attacker) {
-            opponent = combat._defender;
-        }else {
-            opponent = combat._attacker;
+
+    public override void ApplyEffect(Battle battle, Character owner)
+    {
+        SetAttributes(battle, owner);
+
+    if (IsSwords(_owner, _opponent)) {
+            _opponent.DisableCounterAttack();
         }
-        
-        if (IsSwords(owner, opponent)) {
-            opponent.DisableCounterAttack();
+    }
+    
+    private void SetAttributes(Battle battle, Character owner)
+    {
+        _combat = battle.CurrentCombat;
+        _owner = owner;
+        if (_owner == _combat._attacker)
+        {
+            _opponent = _combat._defender;
+        }else
+        {
+            _opponent = _combat._attacker;
         }
     }
 

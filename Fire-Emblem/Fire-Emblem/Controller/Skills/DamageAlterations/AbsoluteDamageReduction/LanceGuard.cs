@@ -6,6 +6,7 @@ public class LanceGuard : DamageAlterationSkill
     private Character _owner;
     private Character _opponent;
     private bool _isOpponentLance;
+    private double _damageReduction = -5.0;
     public LanceGuard(string name, string description) : base(name, description)
     {
     }
@@ -18,8 +19,7 @@ public class LanceGuard : DamageAlterationSkill
             SetAttributes(battle, owner);
             if (_isOpponentLance)
             {
-                double damageReduction = -5.0;
-                owner.AddTemporaryDamageAlteration("AbsoluteReduction", damageReduction);
+                owner.AddTemporaryDamageAlteration("AbsoluteReduction", _damageReduction);
             }
         }
 

@@ -1,27 +1,28 @@
 ﻿namespace Fire_Emblem {
     public class WindBoost : Skill {
         private int Bonus { get; set; }
-
+        private Character _owner;
+        private Combat _combat;
+        private Character _opponent;
         public WindBoost(string name, string description) : base(name, description) {
             Bonus = 6;
         }
 
         public override void ApplyEffect(Battle battle, Character owner) {
-            Combat combat = battle.CurrentCombat;
-            Character otherCharacter;
-            Character thisCharacter;
+            
+            SetAttributes(battle, owner);
 
-            if (owner == combat._attacker) {
-                thisCharacter = combat._attacker;
-                otherCharacter = combat._defender;
-            } else {
-                thisCharacter = combat._defender;
-                otherCharacter = combat._attacker;
-            }
-
-            if (thisCharacter.CurrentHP >= otherCharacter.CurrentHP + 3) {
+            if (_owner.CurrentHP >= _opponent.CurrentHP + 3) {
                 owner.AddTemporaryBonus("Spd", Bonus);
             }
+        }
+        
+        private void SetAttributes(Battle battle, Character owner)
+        {
+            _owner = owner;
+            _combat = battle.CurrentCombat;
+            _opponent = _owner == _combat._attacker ? _combat._defender : _combat._attacker;
+
         }
     }
 }
