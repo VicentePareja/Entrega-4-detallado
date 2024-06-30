@@ -2,64 +2,74 @@ namespace Fire_Emblem;
 
 public class MoonTwinWing : DamageAlterationSkill
 {
+    private int _penalty = -5;
+    private double _healthThreshold = 0.25;
+    private int _speedPonderator = 4;
+    private int _maxPercentageReduction = 40;
+    private Character _owner;
+    private Combat _combat;
+    private Character _opponent;
     public MoonTwinWing(string name, string description) : base(name, description) {}
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
+        SetAttributes(battle, owner);
+        if (IsDamageReduction())
+        {
+            ApplyDamageReductionBasedOnSpeedDifference();
+        }
+
+        if (IsSpeedPenaltyApplicable())
+        {
+            ApplySpeedPenaltiesIfNecessary();
+        }
+
+    }
+    
+    private void SetAttributes(Battle battle, Character owner)
+    {
         _counterTimes++;
-
-        if (_counterTimes % 2 == 0)
-        {
-            ApplyDamageReductionBasedOnSpeedDifference(owner, combat);
-        }
-
-        if (_counterTimes % 2 == 1)
-        {
-            ApplySpeedPenaltiesIfNecessary(owner, combat);
-        }
-
+        _owner = owner;
+        _combat = battle.CurrentCombat;
+        _opponent = (_combat._attacker == _owner) ? _combat._defender : _combat._attacker;
     }
     
-    private void ApplySpeedPenaltiesIfNecessary(Character owner, Combat combat)
+    private bool IsDamageReduction()
     {
-        Character opponent = GetOpponent(combat, owner);
-        if (IsHealthAboveQuarter(owner))
-        {
-            ApplyStatPenalties(opponent, "Atk", -5);
-            ApplyStatPenalties(opponent, "Spd", -5);
-        }
+        return _counterTimes % 2 == 0;
     }
     
-    private void ApplyDamageReductionBasedOnSpeedDifference(Character owner, Combat combat)
+    private void ApplyDamageReductionBasedOnSpeedDifference()
     {
-        Character opponent = GetOpponent(combat, owner);
-        int speedDifference = owner.GetEffectiveAttribute("Spd") - opponent.GetEffectiveAttribute("Spd");
+        int speedDifference = _owner.GetEffectiveAttribute("Spd") - _opponent.GetEffectiveAttribute("Spd");
         if (speedDifference > 0)
         {
             int damageReductionPercentage = CalculateDamageReductionPercentage(speedDifference);
-            owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
+            _owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
         }
     }
-
-    private bool IsHealthAboveQuarter(Character owner)
+    
+    private bool IsSpeedPenaltyApplicable()
     {
-        return Math.Round((double)owner.CurrentHP / owner.MaxHP, 9) >= 0.25;
+        return _counterTimes % 2 == 1;
     }
-
-    private Character GetOpponent(Combat combat, Character owner)
+    
+    private void ApplySpeedPenaltiesIfNecessary()
     {
-        return (combat._attacker == owner) ? combat._defender : combat._attacker;
-    }
-
-    private void ApplyStatPenalties(Character character, string attribute, int value)
-    {
-        character.AddTemporaryPenalty(attribute, value);
+        if (IsHealthAboveQuarter())
+        {
+            _opponent.AddTemporaryPenalty("Atk", _penalty);
+            _opponent.AddTemporaryPenalty("Spd", _penalty);
+        }
     }
     
     private int CalculateDamageReductionPercentage(int speedDifference)
     {
-        int damageReductionPercentage = speedDifference * 4;
-        return Math.Min(damageReductionPercentage, 40);
+        int damageReductionPercentage = speedDifference * _speedPonderator;
+        return Math.Min(damageReductionPercentage, _maxPercentageReduction);
+    }
+    private bool IsHealthAboveQuarter()
+    {
+        return Math.Round((double)_owner.CurrentHP / _owner.MaxHP, 9) >= _healthThreshold;
     }
 }
