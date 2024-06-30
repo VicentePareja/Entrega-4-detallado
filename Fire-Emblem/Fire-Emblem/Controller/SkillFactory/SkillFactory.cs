@@ -320,6 +320,8 @@ namespace Fire_Emblem {
                     return new BindingShield(name, description);
                 case "Sun-Twin Wing":
                     return new SunTwinWing(name, description);
+                case "Dragon's Ire":
+                    return new DragonsIre(name, description);
             default:
                     return new GenericSkill(name, description);
             }
