@@ -318,6 +318,8 @@ namespace Fire_Emblem {
                     return new FlowFlight(name, description);
                 case "Binding Shield":
                     return new BindingShield(name, description);
+                case "Sun-Twin Wing":
+                    return new SunTwinWing(name, description);
             default:
                     return new GenericSkill(name, description);
             }
