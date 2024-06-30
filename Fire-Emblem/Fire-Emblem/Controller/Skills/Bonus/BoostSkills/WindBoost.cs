@@ -4,15 +4,17 @@
         private Character _owner;
         private Combat _combat;
         private Character _opponent;
+        private int hpDifference;
         public WindBoost(string name, string description) : base(name, description) {
             Bonus = 6;
+            hpDifference = 3;
         }
 
         public override void ApplyEffect(Battle battle, Character owner) {
             
             SetAttributes(battle, owner);
 
-            if (_owner.CurrentHP >= _opponent.CurrentHP + 3) {
+            if (_owner.CurrentHP >= _opponent.CurrentHP + hpDifference) {
                 owner.AddTemporaryBonus("Spd", Bonus);
             }
         }
