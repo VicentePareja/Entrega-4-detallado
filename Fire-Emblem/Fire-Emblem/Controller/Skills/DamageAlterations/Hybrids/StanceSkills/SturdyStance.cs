@@ -3,6 +3,8 @@ public class SturdyStance : DamageAlterationSkill
 {
     private int bonus;
     private int reduction;
+    private Combat _combat;
+    private Character _owner;
     public SturdyStance(string name, string description) : base(name, description)
     {
         bonus = 6;
@@ -11,19 +13,39 @@ public class SturdyStance : DamageAlterationSkill
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
-        _counterTimes++;
+        SetAttributes(battle, owner);
 
-        if (combat._attacker != owner && _counterTimes % 2 == 1)
+        if (IsBonuses())
         {
-
-            owner.AddTemporaryBonus("Atk", bonus);
-            owner.AddTemporaryBonus("Def", bonus);
+            ApplyBonuses();
         }
         
-        if (combat._attacker != owner && _counterTimes % 2 == 0)
+        if (IsDamageAlteration())
         {
             owner.MultiplyFollowUpDamageAlterations("PercentageReduction", reduction);
         }
+    }
+    
+    private void SetAttributes(Battle battle, Character owner)
+    {
+        _combat = battle.CurrentCombat;
+        _owner = owner;
+        _counterTimes++;
+    }
+    
+    private bool IsBonuses()
+    {
+        return _combat._attacker != _owner && _counterTimes % 2 == 1;
+    }
+    
+    private void ApplyBonuses()
+    {
+        _owner.AddTemporaryBonus("Atk", bonus);
+        _owner.AddTemporaryBonus("Def", bonus);
+    }
+    
+    private bool IsDamageAlteration()
+    {
+        return _combat._attacker != _owner && _counterTimes % 2 == 0;
     }
 }

@@ -4,6 +4,8 @@ public class SwiftStance : DamageAlterationSkill
 {
     private int bonus;
     private int reduction;
+    private Combat _combat;
+    private Character _owner;
     public SwiftStance(string name, string description) : base(name, description)
     {
         bonus = 6;
@@ -12,17 +14,37 @@ public class SwiftStance : DamageAlterationSkill
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        Combat combat = battle.CurrentCombat;
-        _counterTimes++;
-        if (combat._attacker != owner && _counterTimes % 2 == 1)
+        SetAttributes(battle, owner);
+        if (IsBonuses())
         {
-            owner.AddTemporaryBonus("Spd", bonus);
-            owner.AddTemporaryBonus("Res", bonus);
+            ApplyBonuses();
         }
-        
-        if (combat._attacker != owner && _counterTimes % 2 == 0)
+        if (IsDamageAlteration())
         {
             owner.MultiplyFollowUpDamageAlterations("PercentageReduction", reduction);
         }
+    }
+    
+    private void SetAttributes(Battle battle, Character owner)
+    {
+        _combat = battle.CurrentCombat;
+        _owner = owner;
+        _counterTimes++;
+    }
+    
+    private bool IsBonuses()
+    {
+        return _combat._attacker != _owner && _counterTimes % 2 == 1;
+    }
+    
+    private void ApplyBonuses()
+    {
+        _owner.AddTemporaryBonus("Spd", bonus);
+        _owner.AddTemporaryBonus("Res", bonus);
+    }
+    
+    private bool IsDamageAlteration()
+    {
+        return _combat._attacker != _owner && _counterTimes % 2 == 0;
     }
 }
