@@ -1,32 +1,50 @@
 namespace Fire_Emblem {
     public class Soulblade : Skill {
+        
+        private Combat _combat;
+        private Character _owner;
+        private Character _opponent;
         public Soulblade(string name, string description) : base(name, description) {
         }
 
         public override void ApplyEffect(Battle battle, Character owner)
         {
-            Combat combat = battle.CurrentCombat;
+            SetAttributes(battle, owner);
 
-            if (owner.Weapon == "Sword") {
-                Character opponent = (combat._attacker == owner) ? combat._defender : combat._attacker;
-                double averageDefRes = (opponent.Def + opponent.Res) / 2.0;
-                int changeDef = Convert.ToInt32(Math.Floor(averageDefRes - opponent.Def));
-                int changeRes = Convert.ToInt32(Math.Floor(averageDefRes - opponent.Res));
-
-                if (changeDef < 0 || changeRes < 0) {
-                    Console.WriteLine("Applying penalties.");
-                }
-
-                ApplyAttributeChange(opponent, "Def", changeDef);
-                ApplyAttributeChange(opponent, "Res", changeRes);
+            if (IsWeaponSword()) {
+  
+                DoEffect();
             }
         }
+        
+        private void SetAttributes(Battle battle, Character owner) {
+            _combat = battle.CurrentCombat;
+            _owner = owner;
+            _opponent = (_combat._attacker == owner) ? _combat._defender : _combat._attacker;
+        }
+        
+        private bool IsWeaponSword() {
+            return _owner.Weapon == "Sword";
+        }
+        
+        private void DoEffect() {
+            double averageDefRes = (_opponent.Def + _opponent.Res) / 2.0;
+            int changeDef = Convert.ToInt32(Math.Floor(averageDefRes - _opponent.Def));
+            int changeRes = Convert.ToInt32(Math.Floor(averageDefRes - _opponent.Res));
 
-        private void ApplyAttributeChange(Character character, string attribute, int change) {
+            if (changeDef < 0 || changeRes < 0) {
+                Console.WriteLine("Applying penalties.");
+            }
+
+            ApplyAttributeChange( "Def", changeDef);
+            ApplyAttributeChange( "Res", changeRes);
+        }
+
+        private void ApplyAttributeChange(string attribute, int change) {
             if (change > 0) {
-                character.AddTemporaryBonus(attribute, change);
+                _opponent.AddTemporaryBonus(attribute, change);
             } else if (change < 0) {
-                character.AddTemporaryPenalty(attribute, change);
+                _opponent.AddTemporaryPenalty(attribute, change);
             }
         }
     }
