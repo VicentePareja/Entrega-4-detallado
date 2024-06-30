@@ -328,6 +328,10 @@ namespace Fire_Emblem {
                     return new BlueLionRule(name, description);
                 case "New Divinity":
                     return new NewDivinity(name, description); 
+                case "Phys. Null Follow":
+                    return new PhysNullFollow(name, description);
+                case "Mag. Null Follow":
+                    return new MagNullFollow(name, description);
             default:
                     return new GenericSkill(name, description);
             }

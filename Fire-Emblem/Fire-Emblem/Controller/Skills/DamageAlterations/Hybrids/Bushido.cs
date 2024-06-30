@@ -2,20 +2,20 @@ namespace Fire_Emblem;
 
 public class Bushido : DamageAlterationSkill
 {
+    private double _extraDamage = 7.0;
     public Bushido(string name, string description) : base(name, description)
     {
     }
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        double extraDamage = 7.0;
         Combat combat = battle.CurrentCombat;
         Character opponent = GetOpponent(combat, owner);
         _counterTimes++;
         
         if (_counterTimes % 2 == 0)
         {
-            owner.AddTemporaryDamageAlteration("ExtraDamage", extraDamage);
+            owner.AddTemporaryDamageAlteration("ExtraDamage", _extraDamage);
             ApplySpeedBasedDamageReduction(owner, opponent);
         }
     }
