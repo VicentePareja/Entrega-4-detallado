@@ -2,22 +2,50 @@ namespace Fire_Emblem;
 
 public class AegisShield : DamageAlterationSkill
 {
+    private Character _owner;
+    private int _defBonus;
+    private int _resBonus;
+    private int _reductionPercentage;
     public AegisShield(string name, string description) : base(name, description)
     {
+        _defBonus = 6;
+        _resBonus = 3;
+        _reductionPercentage = 50;
     }
 
     public override void ApplyEffect(Battle battle, Character owner)
     {
-        _counterTimes++;
-        if (_counterTimes % 2 == 1)
+        SetAttributes(owner);
+        if (IsBonuses())
         {
-            owner.AddTemporaryBonus("Def", 6);
-            owner.AddTemporaryBonus("Res", 3);
+            ApplyBonuses();
         }
         
-        if (_counterTimes % 2 == 0)
+        if (IsDamageAlteration())
         {
-            owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", 50);
+            owner.MultiplyFirstAttackDamageAlterations("PercentageReduction", _reductionPercentage);
         }
+    }
+    
+    private void SetAttributes(Character owner)
+    {
+        _owner = owner;
+        _counterTimes++;
+    }
+    
+    private bool IsBonuses()
+    {
+        return _counterTimes % 2 == 1;
+    }
+    
+    private void ApplyBonuses()
+    {
+        _owner.AddTemporaryBonus("Def", _defBonus);
+        _owner.AddTemporaryBonus("Res", _resBonus);
+    }
+    
+    private bool IsDamageAlteration()
+    {
+        return _counterTimes % 2 == 0;
     }
 }
