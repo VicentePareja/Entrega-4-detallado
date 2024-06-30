@@ -3,6 +3,7 @@ namespace Fire_Emblem;
 public class WaryFighter : Skill
 {
     private Character _opponent;
+    private double _hpThreshold = 0.5;
     
     public WaryFighter(string name, string description) : base(name, description)
     {
@@ -11,7 +12,7 @@ public class WaryFighter : Skill
     public override void ApplyEffect(Battle battle, Character owner)
     {
         SetAttributes(battle, owner);
-        if (owner.CurrentHP >= owner.MaxHP * 0.5)
+        if (owner.CurrentHP >= owner.MaxHP * _hpThreshold)
         {
             owner.FollowUpNegation += 1;
             _opponent.FollowUpNegation += 1;
