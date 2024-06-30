@@ -316,6 +316,8 @@ namespace Fire_Emblem {
                     return new FlowFeather(name, description);
                 case "Flow Flight":
                     return new FlowFlight(name, description);
+                case "Binding Shield":
+                    return new BindingShield(name, description);
             default:
                     return new GenericSkill(name, description);
             }
