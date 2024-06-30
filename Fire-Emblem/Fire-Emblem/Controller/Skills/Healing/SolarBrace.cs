@@ -2,6 +2,7 @@ namespace Fire_Emblem;
 
 public class SolarBrace:Skill
 {
+    private int healingPercentage = 50;
     public SolarBrace(string name, string description) : base(name, description)
     {
     }
@@ -11,7 +12,7 @@ public class SolarBrace:Skill
         Character attacker = battle.CurrentCombat._attacker;
         if (owner == attacker)
         {
-            owner.AddHealingEachAttackPercentage(50);
+            owner.AddHealingEachAttackPercentage(healingPercentage);
         }
     }
 }
