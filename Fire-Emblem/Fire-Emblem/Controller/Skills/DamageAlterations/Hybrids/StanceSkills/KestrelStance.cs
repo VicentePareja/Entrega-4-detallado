@@ -2,8 +2,8 @@ namespace Fire_Emblem;
 
 public class KestrelStance : DamageAlterationSkill
 {
-    private int bonus;
-    private int reduction;
+    private int bonus = 6;
+    private int reduction = 10;
     private Combat _combat;
     private Character _owner;
     public KestrelStance(string name, string description) : base(name, description)
