@@ -326,6 +326,8 @@ namespace Fire_Emblem {
                     return new BlackEagleRule(name, description);
                 case "Blue Lion Rule":
                     return new BlueLionRule(name, description);
+                case "New Divinity":
+                    return new NewDivinity(name, description); 
             default:
                     return new GenericSkill(name, description);
             }
