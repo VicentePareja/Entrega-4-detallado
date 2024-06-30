@@ -310,6 +310,8 @@ namespace Fire_Emblem {
                     return new SavvyFighter(name, description);
                 case "Flow Force":
                     return new FlowForce(name, description);
+                case "Flow Refresh":
+                    return new FlowRefresh(name, description);
             default:
                     return new GenericSkill(name, description);
             }
