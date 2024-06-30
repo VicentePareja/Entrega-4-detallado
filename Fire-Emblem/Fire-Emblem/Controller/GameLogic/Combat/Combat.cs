@@ -128,22 +128,20 @@ namespace Fire_Emblem
 
         private void PerformFollowUp()
         {
-            if (CharactersAreAlive())
+            _followUp = false;
+            if (IsFollowUpAttacker() && CharactersAreAlive())
             {
-                _followUp = false;
-                if (IsFollowUpAttacker())
-                {
-                    PerformFollowUpAttacker();
-                }
-                if (IsFollowUpDefender())
-                {
-                    PerformFollowUpDefender();
-                }
-                if(!_followUp)
-                {
-                    PerformNoFollowUp();
-                }
+                PerformFollowUpAttacker();
             }
+            if (IsFollowUpDefender() && CharactersAreAlive())
+            {
+                PerformFollowUpDefender();
+            }
+            if(!_followUp)
+            {
+                PerformNoFollowUp();
+            }
+
         }
         
         private void PerformFollowUpAttacker()

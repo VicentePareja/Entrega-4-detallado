@@ -322,6 +322,8 @@ namespace Fire_Emblem {
                     return new SunTwinWing(name, description);
                 case "Dragon's Ire":
                     return new DragonsIre(name, description);
+                case "Black Eagle Rule":
+                    return new BlackEagleRule(name, description);
             default:
                     return new GenericSkill(name, description);
             }
