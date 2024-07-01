@@ -76,34 +76,16 @@ public class Character
 
     }
 
-    public void AddSkill(Skill skill)
-    {
-        Skills.Add(skill);
-    }
-    
-    private void AddToAttributeDictionary(Dictionary<string, int> dictionary, string attribute, int value)
-    {
-        if (dictionary.ContainsKey(attribute))
-            dictionary[attribute] += value;
-        else
-            dictionary.Add(attribute, value);
-    }
-    
-    private void MultiplyToAttributeDictionary(Dictionary<string, double> dictionary, string attribute, int value)
-    {
-        if (dictionary.ContainsKey(attribute))
-            dictionary[attribute] = 100 - ((100 - dictionary[attribute]) * (100 - value))/100;
-        
-        else
-            dictionary.Add(attribute, value);
-    }
-
     public int GetEffectiveAttribute(string attribute)
     {
         int baseValue = GetBaseAttributeValue(attribute);
         return baseValue + GetTotalAttributeAdjustment(attribute, TemporaryBonuses, TemporaryPenalties);
     }
-
+    public void AddSkill(Skill skill)
+    {
+        Skills.Add(skill);
+    }
+    
     public int GetFirstAttackAttribute(string attribute)
     {
         int baseValue = GetBaseAttributeValue(attribute);
@@ -155,40 +137,6 @@ public class Character
             "Def" => Def,
             "Res" => Res,
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
-        };
-    }
-
-    private int GetTotalAttributeAdjustment(string attribute, Dictionary<string, int> bonuses, Dictionary<string, int> penalties)
-    {
-        int bonus = GetAttributeAdjustment(attribute, bonuses, GetBonusEnabledFlag(attribute));
-        int penalty = GetAttributeAdjustment(attribute, penalties, GetPenaltyEnabledFlag(attribute));
-        return bonus + penalty;
-    }
-
-    private int GetAttributeAdjustment(string attribute, Dictionary<string, int> adjustments, bool isEnabled)
-    {
-        return isEnabled && adjustments.ContainsKey(attribute) ? adjustments[attribute] : 0;
-    }
-
-    private bool GetBonusEnabledFlag(string attribute)
-    {
-        return attribute switch {
-            "Atk" => AreAtkBonusesEnabled,
-            "Spd" => AreSpdBonusesEnabled,
-            "Def" => AreDefBonusesEnabled,
-            "Res" => AreResBonusesEnabled,
-            _ => true
-        };
-    }
-
-    private bool GetPenaltyEnabledFlag(string attribute)
-    {
-        return attribute switch {
-            "Atk" => AreAtkPenaltiesEnabled,
-            "Spd" => AreSpdPenaltiesEnabled,
-            "Def" => AreDefPenaltiesEnabled,
-            "Res" => AreResPenaltiesEnabled,
-            _ => true
         };
     }
     
@@ -487,5 +435,55 @@ public class Character
         FollowUpNegation = 0;
         NegationOfFollowUpGarantization = 0;
         NegationOfNegationOfFollowUp = 0;
+    }
+    
+    private void AddToAttributeDictionary(Dictionary<string, int> dictionary, string attribute, int value)
+    {
+        if (dictionary.ContainsKey(attribute))
+            dictionary[attribute] += value;
+        else
+            dictionary.Add(attribute, value);
+    }
+    
+    private void MultiplyToAttributeDictionary(Dictionary<string, double> dictionary, string attribute, int value)
+    {
+        if (dictionary.ContainsKey(attribute))
+            dictionary[attribute] = 100 - ((100 - dictionary[attribute]) * (100 - value))/100;
+        
+        else
+            dictionary.Add(attribute, value);
+    }
+    private int GetTotalAttributeAdjustment(string attribute, Dictionary<string, int> bonuses, Dictionary<string, int> penalties)
+    {
+        int bonus = GetAttributeAdjustment(attribute, bonuses, GetBonusEnabledFlag(attribute));
+        int penalty = GetAttributeAdjustment(attribute, penalties, GetPenaltyEnabledFlag(attribute));
+        return bonus + penalty;
+    }
+
+    private int GetAttributeAdjustment(string attribute, Dictionary<string, int> adjustments, bool isEnabled)
+    {
+        return isEnabled && adjustments.ContainsKey(attribute) ? adjustments[attribute] : 0;
+    }
+
+    private bool GetBonusEnabledFlag(string attribute)
+    {
+        return attribute switch {
+            "Atk" => AreAtkBonusesEnabled,
+            "Spd" => AreSpdBonusesEnabled,
+            "Def" => AreDefBonusesEnabled,
+            "Res" => AreResBonusesEnabled,
+            _ => true
+        };
+    }
+
+    private bool GetPenaltyEnabledFlag(string attribute)
+    {
+        return attribute switch {
+            "Atk" => AreAtkPenaltiesEnabled,
+            "Spd" => AreSpdPenaltiesEnabled,
+            "Def" => AreDefPenaltiesEnabled,
+            "Res" => AreResPenaltiesEnabled,
+            _ => true
+        };
     }
 }

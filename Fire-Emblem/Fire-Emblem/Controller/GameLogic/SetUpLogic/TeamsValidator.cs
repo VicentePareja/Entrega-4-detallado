@@ -79,6 +79,13 @@ public class TeamsValidator
         _currentTeamNames.Add(playerName);
     }
     
+    private bool FinalizeTeam(List<string> currentTeamNames, Team team)
+    {
+        bool valid = ValidateAndClearCurrentTeam(currentTeamNames, team);
+        currentTeamNames.Clear();
+        return valid;
+    }
+    
     private bool ShouldSwitchTeams(bool switchToPlayer1)
     {
         return switchToPlayer1 != _isPlayer1Team && _currentTeamNames.Any();
@@ -90,12 +97,7 @@ public class TeamsValidator
         _team1Populated = team == _player1.Team;
         return FinalizeTeam(_currentTeamNames, team);
     }
-    private bool FinalizeTeam(List<string> currentTeamNames, Team team)
-    {
-        bool valid = ValidateAndClearCurrentTeam(currentTeamNames, team);
-        currentTeamNames.Clear();
-        return valid;
-    }
+    
     
     private bool ValidateAndClearCurrentTeam(List<string> characterNames, Team team)
     {

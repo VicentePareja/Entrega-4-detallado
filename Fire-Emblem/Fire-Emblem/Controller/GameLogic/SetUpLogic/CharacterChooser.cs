@@ -53,6 +53,8 @@ public class CharacterChooser
             team.Characters.Add(newCharacter);
         }
     }
+    
+    
     private Character CreateOrCloneCharacter(string characterLine)
     {
         var parts = characterLine.Split(" (", 2);
@@ -111,6 +113,4 @@ public class CharacterChooser
             return skillFactory.CreateSkill(skillName, "Descripción no proporcionada");
         }
     }
-    
-
 }
