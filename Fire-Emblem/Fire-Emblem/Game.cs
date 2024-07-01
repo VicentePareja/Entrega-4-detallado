@@ -11,6 +11,8 @@ namespace Fire_Emblem
         private readonly BattleController _battleController;
         private readonly Player _player1;
         private readonly Player _player2;
+        private SetUpLogic _logic;
+        private Battle _battle;
         
         public Game(View view, string teamsFolder)
         {
@@ -21,19 +23,22 @@ namespace Fire_Emblem
             _teamsFolder = teamsFolder;
             _player1 = new Player("Player 1");
             _player2 = new Player("Player 2");
+            _logic = new SetUpLogic(_teamsFolder, _setUpInterface, _setUpController, _player1, _player2);
+            _battle = new Battle(_player1, _player2, _battleInterface, _battleController);
         }
 
         public void Play()
         {
            
-            SetUpLogic logic = new SetUpLogic(_teamsFolder, _setUpInterface, _setUpController, _player1, _player2);
-
-            if (logic.LoadTeams(_player1, _player2))
+            try
             {
-                Battle battle = new Battle(_player1, _player2, _battleInterface, _battleController);
-                battle.Start();
+                _logic.LoadTeams(_player1, _player2);
+                _battle.Start();
             }
-            
+            catch (Exception e)
+            {
+                _setUpInterface.ShowError(e.Message);
+            }
         }
 
     }

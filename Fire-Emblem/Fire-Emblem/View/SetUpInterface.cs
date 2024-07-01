@@ -30,4 +30,8 @@ public class SetUpInterface
         _view.WriteLine($"{index}: {file}");
     }
     
+    public void ShowError(string message)
+    {
+        _view.WriteLine(message);
+    }
 }

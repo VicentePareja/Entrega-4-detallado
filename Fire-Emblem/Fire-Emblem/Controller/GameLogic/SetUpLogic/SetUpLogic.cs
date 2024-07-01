@@ -31,23 +31,14 @@ namespace Fire_Emblem
             _characterChooser = new CharacterChooser(_player1, _player2);
         }
 
-        public bool LoadTeams(Player player1, Player player2)
+        public void LoadTeams(Player player1, Player player2)
         {
 
             ShowAvailableFiles();
             string selectedFile = SelectFile();
             ImportFiles();
-    
-            if (_teamsValidator.ValidateTeams(selectedFile))
-            {
-                _characterChooser.ChooseCharacters(selectedFile);
-                return true;
-            }
-            else
-            {
-                _setUpInterface.PrintTeamsNotValid();
-                return false;
-            }
+            _teamsValidator.ValidateTeams(selectedFile);
+            _characterChooser.ChooseCharacters(selectedFile);
         }
 
         private void ShowAvailableFiles()

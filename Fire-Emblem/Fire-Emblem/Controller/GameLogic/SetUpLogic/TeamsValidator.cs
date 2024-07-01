@@ -15,11 +15,14 @@ public class TeamsValidator
         _player2 = player2;
     }
    
-    public bool ValidateTeams(string selectedFile)
+    public void ValidateTeams(string selectedFile)
     {
         var lines = File.ReadAllLines(selectedFile);
         ProcessTeamLines(lines);
-        return CheckFinalTeamsPopulated();
+        if (!CheckFinalTeamsPopulated())
+        {
+            throw new InvalidTeamException("Archivo de equipos no válido");
+        }
     }
     
     private void ProcessTeamLines(string[] lines)
