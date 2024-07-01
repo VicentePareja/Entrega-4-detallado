@@ -68,21 +68,29 @@ namespace Fire_Emblem
         private string SelectFile()
         {
             string input = _setUpController.GetTeamsFolder();
-            var files = Directory.GetFiles(_teamsFolder, "*.txt");
-            if (int.TryParse(input, out int fileIndex) && fileIndex >= 0 && fileIndex < files.Length)
+            var files = GetTextFilesFromFolder();
+
+            if (IsValidFileSelection(input, files, out int fileIndex))
             {
                 return files[fileIndex];
             }
-            else
-            {
-                return null;
-            }
+    
+            return null;
         }
-        
         private void ImportFiles()
         {
             CharacterChooser.SetCharacters(_characterFileImporter.ImportCharacters());
             CharacterChooser.SetSkills(_skillFileImporter.ImportSkills());
+        }
+        
+        private string[] GetTextFilesFromFolder()
+        {
+            return Directory.GetFiles(_teamsFolder, "*.txt");
+        }
+
+        private bool IsValidFileSelection(string input, string[] files, out int fileIndex)
+        {
+            return int.TryParse(input, out fileIndex) && fileIndex >= 0 && fileIndex < files.Length;
         }
         
     }
