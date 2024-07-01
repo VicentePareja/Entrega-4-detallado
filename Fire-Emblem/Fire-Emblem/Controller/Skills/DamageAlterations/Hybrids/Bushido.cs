@@ -6,6 +6,8 @@ public class Bushido : DamageAlterationSkill
     private Combat _combat;
     private Character _owner;
     private Character _opponent;
+    private int _maxDamageReduction = 40;
+    private int _speedPonderator = 4;
     public Bushido(string name, string description) : base(name, description)
     {
     }
@@ -37,8 +39,8 @@ public class Bushido : DamageAlterationSkill
         int speedDifference = _owner.GetEffectiveAttribute("Spd") - _opponent.GetEffectiveAttribute("Spd");
         if (speedDifference > 0)
         {
-            int damageReductionPercentage = speedDifference * 4;
-            damageReductionPercentage = Math.Min(damageReductionPercentage, 40);
+            int damageReductionPercentage = speedDifference * _speedPonderator;
+            damageReductionPercentage = Math.Min(damageReductionPercentage, _maxDamageReduction);
             _owner.MultiplyTemporaryDamageAlterations("PercentageReduction", damageReductionPercentage);
         }
     }

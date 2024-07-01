@@ -1,7 +1,4 @@
-﻿// SkillFactory.cs
-
-using System.Net.Http.Headers;
-using Fire_Emblem.NegateBonus;
+﻿using Fire_Emblem.NegateBonus;
 
 namespace Fire_Emblem {
     public class SkillFactory : ISkillFactory {
