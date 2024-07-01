@@ -77,15 +77,6 @@ public class Attack
         _attacker.CurrentHP -= _damage;
     }
     
-    private int CalculateDamage()
-    {   
-        double initialDamage = (double)_damage;
-        double newDamage = initialDamage + Math.Floor(_extraDamage);
-        double damageReduced = newDamage * (100.0 - _reduction) / 100.0;
-        damageReduced = Math.Round(damageReduced, 9);
-        return Math.Max(Convert.ToInt32(Math.Floor(damageReduced)) + Convert.ToInt32(_absoluteReduction),0);
-    }
-
     private double CalculateWeaponTriangleBonusForAttack(string advantage)
     {
         return advantage switch
@@ -106,14 +97,13 @@ public class Attack
         };
     }
     
-    private int CalculateBaseDamageForAttack(int attackerAtk, int defenderDef)
-    {
-        return Math.Max((int)(attackerAtk * _weaponTriangleBonus - defenderDef), 0);
-    }
-    
     private int CalculateBaseDamageForDefense(int attackValue, int defenseValue)
     {
         return Math.Max((int)(attackValue * _weaponTriangleBonus - defenseValue), 0);
+    }
+    private int CalculateBaseDamageForAttack(int attackerAtk, int defenderDef)
+    {
+        return Math.Max((int)(attackerAtk * _weaponTriangleBonus - defenderDef), 0);
     }
     
     private int ApplyDamageAlterationsForAttack()
@@ -122,25 +112,7 @@ public class Attack
         _extraDamage = _attacker.GetFirstAttackDamageAlteration("ExtraDamage");
         _absoluteReduction = _defender.GetFirstAttackDamageAlteration("AbsoluteReduction");
 
-        return CalculateDamage();
-    }
-    
-    private int ApplyDamageAlterationsForFollowUp()
-    {
-        _reduction = _defender.GetFollowUpDamageAlteration("PercentageReduction");
-        _extraDamage = _attacker.GetFollowUpDamageAlteration("ExtraDamage");
-        _absoluteReduction = _defender.GetFollowUpDamageAlteration("AbsoluteReduction");
-
-        return CalculateDamage();
-    }
-    
-    private int ApplyDamageAlterationsForCounter()
-    {
-        _reduction = _attacker.GetFirstAttackDamageAlteration("PercentageReduction");
-        _extraDamage = _defender.GetFirstAttackDamageAlteration("ExtraDamage");
-        _absoluteReduction = _attacker.GetFirstAttackDamageAlteration("AbsoluteReduction");
-
-        return CalculateDamage();
+        return CalculateFinalDamage();
     }
     
     private int ApplyDamageAlterationsForDefense()
@@ -149,9 +121,35 @@ public class Attack
         _extraDamage = _defender.GetFollowUpDamageAlteration("ExtraDamage");
         _absoluteReduction = _attacker.GetFollowUpDamageAlteration("AbsoluteReduction");
 
-        return CalculateDamage();
+        return CalculateFinalDamage();
     }
+    
+    private int ApplyDamageAlterationsForCounter()
+    {
+        _reduction = _attacker.GetFirstAttackDamageAlteration("PercentageReduction");
+        _extraDamage = _defender.GetFirstAttackDamageAlteration("ExtraDamage");
+        _absoluteReduction = _attacker.GetFirstAttackDamageAlteration("AbsoluteReduction");
 
+        return CalculateFinalDamage();
+    }
+    private int ApplyDamageAlterationsForFollowUp()
+    {
+        _reduction = _defender.GetFollowUpDamageAlteration("PercentageReduction");
+        _extraDamage = _attacker.GetFollowUpDamageAlteration("ExtraDamage");
+        _absoluteReduction = _defender.GetFollowUpDamageAlteration("AbsoluteReduction");
+
+        return CalculateFinalDamage();
+    }
+    
+    private int CalculateFinalDamage()
+    {   
+        double initialDamage = (double)_damage;
+        double newDamage = initialDamage + Math.Floor(_extraDamage);
+        double damageReduced = newDamage * (100.0 - _reduction) / 100.0;
+        damageReduced = Math.Round(damageReduced, 9);
+        return Math.Max(Convert.ToInt32(Math.Floor(damageReduced)) + Convert.ToInt32(_absoluteReduction),0);
+    }
+    
     private void PerformEachAttackHealing(Character receiver)
     {
         int healing = (int)(_damage * receiver.GetHealingEachAttackPercentage()/100);

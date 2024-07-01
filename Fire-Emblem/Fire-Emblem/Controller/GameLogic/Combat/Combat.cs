@@ -14,7 +14,8 @@ namespace Fire_Emblem
         private bool _followUp;
         private Attack _currentAttack;
 
-        public Combat(Character attacker, Character defender, string advantage, CombatInterface combatInterface, Battle battle)
+        public Combat(Character attacker, Character defender, string advantage,
+            CombatInterface combatInterface, Battle battle)
         {
             _attacker = attacker;
             _defender = defender;
@@ -74,49 +75,12 @@ namespace Fire_Emblem
             _combatInterface.PrintBeforeCombatDamage(_defender);
         }
         
-        private void ChangeHealthBeforeCombate(Character character)
-        {
-            if (character.CurrentHP > 0){}
-            int dmg = character.GetDamageBeforeCombat();
-            character.CurrentHP -= dmg;
-            if (character.CurrentHP <= 0)
-            {
-                character.CurrentHP = 1;
-            }
-        }
-        
-        private void PerformAfterCombatDamage()
-        {
-            if (_attacker.CurrentHP > 0)
-            {
-                ChangeHealthAfterCombat(_attacker);
-                _combatInterface.PrintAfterCombatDamage(_attacker);
-            }
-            if (_defender.CurrentHP > 0)
-            {
-                ChangeHealthAfterCombat(_defender);
-                _combatInterface.PrintAfterCombatDamage(_defender); 
-            }
-            
-        }
-        
-        private void ChangeHealthAfterCombat(Character character)
-        {
-            {
-                int dmg = character.GetDamageAfterCombat();
-                character.CurrentHP -= dmg;
-                if (character.CurrentHP <= 0)
-                {
-                    character.CurrentHP = 1;
-                }
-            }
-        }
         private void PerformInitialAttack()
         {
             _currentAttack.PerformAttack(_advantage);
             _attacker.SetHasAttacked();
         }
-
+        
         private void PerformCounterAttack()
         {
             if (_defender.CurrentHP > 0)
@@ -125,7 +89,7 @@ namespace Fire_Emblem
                 _defender.SetHasAttacked();
             }
         }
-
+        
         private void PerformFollowUp()
         {
             _followUp = false;
@@ -141,28 +105,18 @@ namespace Fire_Emblem
             {
                 PerformNoFollowUp();
             }
-
+        }
+        private void ChangeHealthBeforeCombate(Character character)
+        {
+            if (character.CurrentHP > 0){}
+            int dmg = character.GetDamageBeforeCombat();
+            character.CurrentHP -= dmg;
+            if (character.CurrentHP <= 0)
+            {
+                character.CurrentHP = 1;
+            }
         }
         
-        private void PerformFollowUpAttacker()
-        {
-            _currentAttack.PerformFollowUpAttacker(_advantage);
-            _attacker.SetHasAttacked();
-            _followUp = true;
-        }
-        
-        private void PerformFollowUpDefender()
-        {
-            _currentAttack.PerformFollowUpDefender(_advantage);
-            _defender.SetHasAttacked();
-            _followUp = true;
-        }
-        
-        private bool CharactersAreAlive()
-        {
-            return _attacker.CurrentHP > 0 && _defender.CurrentHP > 0;
-        }
-
         private bool IsFollowUpAttacker()
         {
             bool speedEnough = _attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5;
@@ -184,7 +138,12 @@ namespace Fire_Emblem
                 return false;
             }
         }
-
+        
+        private bool CharactersAreAlive()
+        {
+            return _attacker.CurrentHP > 0 && _defender.CurrentHP > 0;
+        }
+        
         private bool IsFollowUpDefender()
         {
             if(!_defender.CanCounterAttack())
@@ -210,6 +169,33 @@ namespace Fire_Emblem
                 return false;
             }
         }
+        
+        private void PerformAfterCombatDamage()
+        {
+            if (_attacker.CurrentHP > 0)
+            {
+                ChangeHealthAfterCombat(_attacker);
+                _combatInterface.PrintAfterCombatDamage(_attacker);
+            }
+            if (_defender.CurrentHP > 0)
+            {
+                ChangeHealthAfterCombat(_defender);
+                _combatInterface.PrintAfterCombatDamage(_defender); 
+            }
+        }
+        private void PerformFollowUpAttacker()
+        {
+            _currentAttack.PerformFollowUpAttacker(_advantage);
+            _attacker.SetHasAttacked();
+            _followUp = true;
+        }
+        
+        private void PerformFollowUpDefender()
+        {
+            _currentAttack.PerformFollowUpDefender(_advantage);
+            _defender.SetHasAttacked();
+            _followUp = true;
+        }
 
         private void PerformNoFollowUp()
         {
@@ -222,6 +208,16 @@ namespace Fire_Emblem
                 _combatInterface.PrintNoFollowUp();
             }
         }
-        
+        private void ChangeHealthAfterCombat(Character character)
+        {
+            {
+                int dmg = character.GetDamageAfterCombat();
+                character.CurrentHP -= dmg;
+                if (character.CurrentHP <= 0)
+                {
+                    character.CurrentHP = 1;
+                }
+            }
+        }
     }
 }
