@@ -62,12 +62,12 @@ public class TeamsValidator
         {
             if (switchToPlayer1)
             {
-                if (!ProcessTeamSwitch(_player2.Team))
+                if (!PopulateTeams(_player2.Team))
                     return;
             }
             else
             {
-                if (!ProcessTeamSwitch(_player1.Team))
+                if (!PopulateTeams(_player1.Team))
                     return;
             }
         }
@@ -84,7 +84,7 @@ public class TeamsValidator
         return switchToPlayer1 != _isPlayer1Team && _currentTeamNames.Any();
     }
     
-    private bool ProcessTeamSwitch(Team team)
+    private bool PopulateTeams(Team team)
     {
         _team2Populated = team == _player2.Team;
         _team1Populated = team == _player1.Team;
