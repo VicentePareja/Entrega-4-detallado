@@ -1,6 +1,6 @@
 namespace Fire_Emblem;
 
-public class CharacterChooser
+public class TeamChooser
 {
 
     private Player _player1;
@@ -8,13 +8,13 @@ public class CharacterChooser
     private bool _isPlayer1Team = true;
     private static List<Character> _characters;
     private static List<Skill> _skills;
-    public CharacterChooser(Player player1, Player player2)
+    public TeamChooser(Player player1, Player player2)
     {
 
         _player1 = player1;
         _player2 = player2;
     }
-    public void ChooseCharacters(string selectedFilePath)
+    public void ChooseTeam(string selectedFilePath)
     {
         var lines = File.ReadAllLines(selectedFilePath);
         _isPlayer1Team = true; 
@@ -53,8 +53,6 @@ public class CharacterChooser
             team.Characters.Add(newCharacter);
         }
     }
-    
-    
     private Character CreateOrCloneCharacter(string characterLine)
     {
         var parts = characterLine.Split(" (", 2);
@@ -113,4 +111,6 @@ public class CharacterChooser
             return skillFactory.CreateSkill(skillName, "Descripción no proporcionada");
         }
     }
+    
+
 }

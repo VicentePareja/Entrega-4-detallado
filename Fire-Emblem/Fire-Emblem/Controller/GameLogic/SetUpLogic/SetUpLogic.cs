@@ -16,7 +16,7 @@ namespace Fire_Emblem
         private readonly CharacterFileImporter _characterFileImporter;
         private readonly SkillFileImporter _skillFileImporter;
         private readonly TeamsValidator _teamsValidator;
-        private readonly CharacterChooser _characterChooser;
+        private readonly TeamChooser _teamChooser;
         public SetUpLogic(string teamsFolder, SetUpInterface setUpInterface, SetUpController setUpController, 
             Player player1, Player player2)
         {
@@ -28,7 +28,7 @@ namespace Fire_Emblem
             _characterFileImporter = new CharacterFileImporter(Path.Combine(_teamsFolder, "../.."));
             _skillFileImporter = new SkillFileImporter(Path.Combine(_teamsFolder, "../.."));
             _teamsValidator = new TeamsValidator(_player1, _player2);
-            _characterChooser = new CharacterChooser(_player1, _player2);
+            _teamChooser = new TeamChooser(_player1, _player2);
         }
 
         public void LoadTeams(Player player1, Player player2)
@@ -38,7 +38,7 @@ namespace Fire_Emblem
             string selectedFile = SelectFile();
             ImportFiles();
             _teamsValidator.ValidateTeams(selectedFile);
-            _characterChooser.ChooseCharacters(selectedFile);
+            _teamChooser.ChooseTeam(selectedFile);
         }
 
         private void ShowAvailableFiles()
@@ -71,8 +71,8 @@ namespace Fire_Emblem
         }
         private void ImportFiles()
         {
-            CharacterChooser.SetCharacters(_characterFileImporter.ImportCharacters());
-            CharacterChooser.SetSkills(_skillFileImporter.ImportSkills());
+            TeamChooser.SetCharacters(_characterFileImporter.ImportCharacters());
+            TeamChooser.SetSkills(_skillFileImporter.ImportSkills());
         }
         
         private string[] GetTextFilesFromFolder()
