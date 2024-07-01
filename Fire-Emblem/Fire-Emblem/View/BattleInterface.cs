@@ -18,7 +18,8 @@ public class BattleInterface
     }
     public void PrintAdvantage(Character attackerUnit, Character defenderUnit)
     {
-        _view.WriteLine($"{attackerUnit.Name} ({attackerUnit.Weapon}) tiene ventaja con respecto a {defenderUnit.Name} ({defenderUnit.Weapon})");
+        _view.WriteLine($"{attackerUnit.Name} ({attackerUnit.Weapon})" +
+                        $" tiene ventaja con respecto a {defenderUnit.Name} ({defenderUnit.Weapon})");
     }
     public void PrintNotAdvantage()
     {

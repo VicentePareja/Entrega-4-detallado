@@ -108,28 +108,34 @@ public class Character
     {
         int baseValue = GetBaseAttributeValue(attribute);
         int totalAdjustment = GetTotalAttributeAdjustment(attribute, TemporaryBonuses, TemporaryPenalties);
-        totalAdjustment += GetTotalAttributeAdjustment(attribute, TemporaryFirstAttackBonuses, TemporaryFirstAttackPenalties);
+        totalAdjustment += GetTotalAttributeAdjustment(attribute, 
+            TemporaryFirstAttackBonuses, TemporaryFirstAttackPenalties);
         int totalDamage = baseValue + totalAdjustment;
         return totalDamage;
     }
     
     public double GetTemporaryDamageAlteration(string attribute)
     {
-        double bothAttack = TemporaryDamageAlterations.ContainsKey(attribute) ? TemporaryDamageAlterations[attribute] : 0.0;
+        double bothAttack = TemporaryDamageAlterations.ContainsKey(attribute) ?
+            TemporaryDamageAlterations[attribute] : 0.0;
         return bothAttack;
     }
     
     public double GetFirstAttackDamageAlteration(string attribute)
     {
-        double firstAttack = FirstAttackDamageAlterations.ContainsKey(attribute) ? FirstAttackDamageAlterations[attribute] : 0.0;
-        double bothAttack = TemporaryDamageAlterations.ContainsKey(attribute) ? TemporaryDamageAlterations[attribute] : 0.0;
+        double firstAttack = FirstAttackDamageAlterations.ContainsKey(attribute) ?
+            FirstAttackDamageAlterations[attribute] : 0.0;
+        double bothAttack = TemporaryDamageAlterations.ContainsKey(attribute) ?
+            TemporaryDamageAlterations[attribute] : 0.0;
         return firstAttack + bothAttack;
     }
     
     public double GetFollowUpDamageAlteration(string attribute)
     {
-        double followUp = FollowUpDamageAlterations.ContainsKey(attribute) ? FollowUpDamageAlterations[attribute] : 0.0;
-        double bothAttack = TemporaryDamageAlterations.ContainsKey(attribute) ? TemporaryDamageAlterations[attribute] : 0.0;
+        double followUp = FollowUpDamageAlterations.ContainsKey(attribute) ?
+            FollowUpDamageAlterations[attribute] : 0.0;
+        double bothAttack = TemporaryDamageAlterations.ContainsKey(attribute) ?
+            TemporaryDamageAlterations[attribute] : 0.0;
         return followUp + bothAttack;
     }
 

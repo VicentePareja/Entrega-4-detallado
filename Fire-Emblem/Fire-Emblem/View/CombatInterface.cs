@@ -88,7 +88,8 @@ public class CombatInterface
         double healing = character.GetHealingEachAttackPercentage();
         if (healing > 0)
         {
-            _view.WriteLine($"{character.Name} recuperará HP igual al {healing}% del daño realizado en cada ataque");
+            _view.WriteLine($"{character.Name} recuperará HP igual al " +
+                            $"{healing}% del daño realizado en cada ataque");
         }
     }
     
@@ -163,7 +164,8 @@ public class CombatInterface
         foreach (var stat in statsOrder)
         {
 
-            int penalty = character.TemporaryFirstAttackPenalties.ContainsKey(stat) ? character.TemporaryFirstAttackPenalties[stat] : 0;
+            int penalty = character.TemporaryFirstAttackPenalties.ContainsKey(stat) ?
+                character.TemporaryFirstAttackPenalties[stat] : 0;
             if (penalty != 0)
             {
                 _view.WriteLine($"{character.Name} obtiene {stat}{penalty:+#;-#;+0} en su primer ataque");
@@ -176,7 +178,8 @@ public class CombatInterface
         string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
         foreach (var stat in statsOrder)
         {
-            int bonus = character.TemporaryFollowUpBonuses.ContainsKey(stat) ? character.TemporaryFollowUpBonuses[stat] : 0;
+            int bonus = character.TemporaryFollowUpBonuses.ContainsKey(stat) ?
+                character.TemporaryFollowUpBonuses[stat] : 0;
             if(bonus != 0)
             {
                 _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0} en su Follow-Up");
@@ -189,7 +192,8 @@ public class CombatInterface
         string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
         foreach (var stat in statsOrder)
         {
-            int bonus = character.TemporaryFollowUpPenalties.ContainsKey(stat) ? character.TemporaryFollowUpPenalties[stat] : 0;
+            int bonus = character.TemporaryFollowUpPenalties.ContainsKey(stat) ?
+                character.TemporaryFollowUpPenalties[stat] : 0;
             if(bonus != 0)
             {
                 _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0} en su Follow-Up");
@@ -209,11 +213,13 @@ public class CombatInterface
         }
         if (firstAttackDamageAlteration != 0.0)
         {
-            _view.WriteLine($"{character.Name} realizará +{(int)firstAttackDamageAlteration} daño extra en su primer ataque");
+            _view.WriteLine($"{character.Name} realizará +{(int)firstAttackDamageAlteration}" +
+                            $" daño extra en su primer ataque");
         }
         if (followUpDamageAlteration != 0.0)
         {
-            _view.WriteLine($"{character.Name} realizará +{(int)followUpDamageAlteration} daño extra en su Follow-Up");
+            _view.WriteLine($"{character.Name} realizará +{(int)followUpDamageAlteration}" +
+                            $" daño extra en su Follow-Up");
         }
     }
 
@@ -226,15 +232,18 @@ public class CombatInterface
         
         if (damageReduction != 0.0)
         {
-            _view.WriteLine($"{character.Name} reducirá el daño de los ataques del rival en un {damageReduction}%");
+            _view.WriteLine($"{character.Name} reducirá el daño de los ataques" +
+                            $" del rival en un {damageReduction}%");
         }
         if (firstAttackDamageReduction != 0.0)
         {
-            _view.WriteLine($"{character.Name} reducirá el daño del primer ataque del rival en un {firstAttackDamageReduction}%");
+            _view.WriteLine($"{character.Name} reducirá el daño del primer ataque" +
+                            $" del rival en un {firstAttackDamageReduction}%");
         }
         if (followUpDamageReduction != 0.0)
         {
-            _view.WriteLine($"{character.Name} reducirá el daño del Follow-Up del rival en un {followUpDamageReduction}%");
+            _view.WriteLine($"{character.Name} reducirá el daño del Follow-Up" +
+                            $" del rival en un {followUpDamageReduction}%");
         }
     }
 
@@ -251,12 +260,14 @@ public class CombatInterface
         if (firstAttackDamageReduction != 0.0)
         {
             _view.WriteLine(
-                $"{character.Name} reducirá el daño del primer ataque del rival en {firstAttackDamageReduction}");
+                $"{character.Name} reducirá el daño del primer ataque" +
+                $" del rival en {firstAttackDamageReduction}");
         }
         if (followUpDamageReduction != 0.0)
         {
             _view.WriteLine(
-                $"{character.Name} reducirá el daño de los Follow-Up del rival en {followUpDamageReduction}");
+                $"{character.Name} reducirá el daño de los Follow-Up" +
+                $" del rival en {followUpDamageReduction}");
         }
     }
     
@@ -266,7 +277,8 @@ public class CombatInterface
         if (healing > 0)
         {
             int currentHP = character.CurrentHP;
-            _view.WriteLine($"{character.Name} recupera {healing} HP luego de atacar y queda con {currentHP} HP.");
+            _view.WriteLine($"{character.Name} recupera {healing}" +
+                            $" HP luego de atacar y queda con {currentHP} HP.");
         }
     }
     
@@ -297,10 +309,12 @@ public class CombatInterface
         
         if (damage > 0)
         {
-            _view.WriteLine($"{name} recibe {damage} de daño antes de iniciar el combate y queda con {currentHP} HP");
+            _view.WriteLine($"{name} recibe {damage} de daño antes de iniciar" +
+                            $" el combate y queda con {currentHP} HP");
         }else if (damage < 0)
         {
-            _view.WriteLine($"{name} recupera {-damage} HP antes de iniciar el combate y queda con {currentHP} HP");
+            _view.WriteLine($"{name} recupera {-damage} HP antes de iniciar" +
+                            $" el combate y queda con {currentHP} HP");
         }
         
     }
@@ -325,7 +339,8 @@ public class CombatInterface
         int followUpGarantization = character.FollowUpGarantization;
         if (followUpGarantization > 0)
         {
-            _view.WriteLine($"{character.Name} tiene {followUpGarantization} efecto(s) que garantiza(n) su follow up activo(s)");
+            _view.WriteLine($"{character.Name} tiene {followUpGarantization}" +
+                            $" efecto(s) que garantiza(n) su follow up activo(s)");
         }
     }
     private void PrintFollowUpNegations(Character character)
@@ -333,7 +348,8 @@ public class CombatInterface
         int followUpNegation = character.FollowUpNegation;
         if (followUpNegation > 0)
         {
-            _view.WriteLine($"{character.Name} tiene {followUpNegation} efecto(s) que neutraliza(n) su follow up activo(s)");
+            _view.WriteLine($"{character.Name} tiene {followUpNegation}" +
+                            $" efecto(s) que neutraliza(n) su follow up activo(s)");
         }
     }
     

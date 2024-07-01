@@ -10,7 +10,8 @@ namespace Fire_Emblem {
         private Character _defenderUnit;
         private string _currentAdvantage;
 
-        public TurnHandler(Battle battle, BattleInterface battleInterface, AdvantageHandler advantageHandler, BattleController battleController) {
+        public TurnHandler(Battle battle, BattleInterface battleInterface, 
+            AdvantageHandler advantageHandler, BattleController battleController) {
             _battle = battle;
             _battleInterface = battleInterface;
             _advantageHandler = advantageHandler;
@@ -50,7 +51,8 @@ namespace Fire_Emblem {
             return player.Team.Characters[choice];
         }
         private void PerformCombat() {
-            Combat currentCombat = new Combat(_attackerUnit, _defenderUnit, _currentAdvantage, _battleInterface.CombatInterface, _battle);
+            Combat currentCombat = new Combat(_attackerUnit, _defenderUnit, _currentAdvantage,
+                _battleInterface.CombatInterface, _battle);
             _battle.CurrentCombat = currentCombat;
             currentCombat.Start();
             _battle.RecordCombat(_attackerUnit, _defenderUnit);

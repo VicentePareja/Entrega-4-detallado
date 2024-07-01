@@ -17,7 +17,8 @@ namespace Fire_Emblem
         private readonly SkillFileImporter _skillFileImporter;
         private readonly TeamsValidator _teamsValidator;
         private readonly CharacterChooser _characterChooser;
-        public SetUpLogic(string teamsFolder, SetUpInterface setUpInterface, SetUpController setUpController, Player player1, Player player2)
+        public SetUpLogic(string teamsFolder, SetUpInterface setUpInterface, SetUpController setUpController, 
+            Player player1, Player player2)
         {
             _player1 = player1;
             _player2 = player2;
