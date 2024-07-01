@@ -15,7 +15,7 @@ public class TeamsValidator
         _player2 = player2;
     }
    
-    public bool ValidTeams(string selectedFile)
+    public bool ValidateTeams(string selectedFile)
     {
         var lines = File.ReadAllLines(selectedFile);
         ProcessTeamLines(lines);
@@ -37,6 +37,24 @@ public class TeamsValidator
         }
     }
     
+    private bool CheckFinalTeamsPopulated()
+    {
+        if (_currentTeamNames.Any())
+        {
+            if (_isPlayer1Team)
+            {
+                _team1Populated = true;
+            }
+            else
+            {
+                _team2Populated = true;
+            }
+            if (!FinalizeTeam(_currentTeamNames, _isPlayer1Team ? _player1.Team : _player2.Team)) return false;
+        }
+
+        return _team1Populated && _team2Populated;
+    }
+    
     private void HandleTeamSwitch(string line)
     {
         bool switchToPlayer1 = line == "Player 1 Team";
@@ -56,24 +74,22 @@ public class TeamsValidator
         _isPlayer1Team = switchToPlayer1;
     }
     
-    private bool CheckFinalTeamsPopulated()
+    private void AddPlayerToTeam(string playerName)
     {
-        if (_currentTeamNames.Any())
-        {
-            if (_isPlayer1Team)
-            {
-                _team1Populated = true;
-            }
-            else
-            {
-                _team2Populated = true;
-            }
-            if (!FinalizeTeam(_currentTeamNames, _isPlayer1Team ? _player1.Team : _player2.Team)) return false;
-        }
-
-        return _team1Populated && _team2Populated;
+        _currentTeamNames.Add(playerName);
     }
     
+    private bool ShouldSwitchTeams(bool switchToPlayer1)
+    {
+        return switchToPlayer1 != _isPlayer1Team && _currentTeamNames.Any();
+    }
+    
+    private bool ProcessTeamSwitch(Team team)
+    {
+        _team2Populated = team == _player2.Team;
+        _team1Populated = team == _player1.Team;
+        return FinalizeTeam(_currentTeamNames, team);
+    }
     private bool FinalizeTeam(List<string> currentTeamNames, Team team)
     {
         bool valid = ValidateAndClearCurrentTeam(currentTeamNames, team);
@@ -124,22 +140,5 @@ public class TeamsValidator
     private void ClearTeamCharacters(Team team)
     {
         team.Characters.Clear();
-    }
-    
-    private bool ProcessTeamSwitch(Team team)
-    {
-        _team2Populated = team == _player2.Team;
-        _team1Populated = team == _player1.Team;
-        return FinalizeTeam(_currentTeamNames, team);
-    }
-    
-    private bool ShouldSwitchTeams(bool switchToPlayer1)
-    {
-        return switchToPlayer1 != _isPlayer1Team && _currentTeamNames.Any();
-    }
-        
-    private void AddPlayerToTeam(string playerName)
-    {
-        _currentTeamNames.Add(playerName);
     }
 }

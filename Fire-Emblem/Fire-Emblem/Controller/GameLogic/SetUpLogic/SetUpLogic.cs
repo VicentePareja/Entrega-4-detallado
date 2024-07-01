@@ -37,7 +37,7 @@ namespace Fire_Emblem
             string selectedFile = SelectFile();
             ImportFiles();
     
-            if (_teamsValidator.ValidTeams(selectedFile))
+            if (_teamsValidator.ValidateTeams(selectedFile))
             {
                 _characterChooser.ChooseCharacters(selectedFile);
                 return true;
